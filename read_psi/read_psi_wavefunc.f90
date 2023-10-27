@@ -6,7 +6,6 @@ subroutine read_psi()
 
     logical lend
     integer i,j, k,  psi_index
-    integer psi_number  ! number of time steps for wave function arrays recorded
     integer psi_info_end  ! file location pointer to record the end of psi_info from the beginning.
     real time , dt
 
@@ -25,7 +24,7 @@ subroutine read_psi()
     read(ipsi) filever
 
     ! read information for psi wave function.
-    call rdpsiinfo(unit)
+    call rdpsiinfo(ipsi)
 
     !----------------- calculate the # of time steps by reading to the end of the psi file  START -------------------------
     psi_info_end = ftell(ipsi)

@@ -76,6 +76,7 @@ module psidef
     ! 2d array stores wave function at different time step
     ! we will store the wave function psi in there in read_psi_wavefunction.f90
     !-------------------------------------------------------
+    integer psi_number  ! number of time steps for wave function arrays recorded
     complex(kind=selected_real_kind(33, 4931)), pointer :: psi_array(:,:) ! 2d array of wave function for all time step
     real , pointer :: time_list(:)  ! record time for the wave function.
 
