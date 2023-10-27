@@ -17,6 +17,30 @@ module psidef
     !-----------------------------------------------------------------------
     integer dgldim, dmatdim, adim, maxspf
 
+    !-----------------------------------------------------------------------
+    ! ARRAY DIMENSIONS DEPENDENT ON NMODE
+    !
+    ! PhiDim(M): Length of phi-vector for mode m
+    !            PhiDim(M) = Sum[Dim(S,M)*SubDim(M)]
+    ! maxphidim: Size of largest phi vector
+    !            maxphidim = max[phidim(m)]
+    ! totphidim: overall size of single-particle functions
+    !            totphidim = Sum_m [phidim(m)] = dgldim-adim
+    !-----------------------------------------------------------------------
+    integer maxphidim, totphidim
+    integer, pointer :: phidim(:)
+
+    !-----------------------------------------------------------------------
+    ! INFORMATION ABOUT WAVEFUNCTION TYPE
+    !
+    ! psitype: 0 = MCTDH (default)
+    !          1 = numerically exact (full grid representation)
+    !          3 = multilayer
+    !         10 = MCTDH (dynamical WF)
+    !         11 = ML-MCTDH (dynamical WF)
+    !-----------------------------------------------------------------------
+    integer psitype
+
     !--------------------------------------------------
     ! POINTERS FOR ARRAYS
     !
@@ -37,5 +61,22 @@ module psidef
     integer,pointer :: zpsi(:),block(:)
     integer,pointer :: dmat(:,:)
     integer,pointer :: zetf(:,:)
+
+    !--------------------------------------
+    ! Below are the variables I am quite sure what's it's for,  but it's stored in psidef part.
+    ! msymmtr    : Array specifying (a)symmetrization of DOFs and 2D SPFs
+    ! idmode     : Array specifying identical (by symmetry) modes
+    ! symcv      : Array specifying partial symmetrization of A-vector
+    ! citype
+    !-------------------------------------
+    integer, pointer :: msymmtr(:), idmode(:), symcv(:)
+    integer citype
+
+    !--------------------------------------------------------
+    ! 2d array stores wave function at different time step
+    ! we will store the wave function psi in there in read_psi_wavefunction.f90
+    !-------------------------------------------------------
+    complex(kind=selected_real_kind(33, 4931)), pointer :: psi_array(:,:) ! 2d array of wave function for all time step
+    real , pointer :: time_list(:)  ! record time for the wave function.
 
 end module psidef

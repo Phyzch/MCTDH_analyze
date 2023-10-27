@@ -5,19 +5,23 @@ module griddat
     ! VARIOUS INTEGERS DEFINING SYSTEM
     !
     ! ndof     : total number of degrees of freedom
-    ! feb      : number of degree of freedom described by an electronic basis
+    ! feb      : index of degree of freedom described by an electronic basis
+    ! fpb      : index of degree of freedom described by a packet basis (useless)
     ! gdim(f)  : number of grid points for dof f
     ! maxgdim  : Max[gdim(f)]
     ! maxgdim2 : Max[gdim(f)**2]
     !-----------------------------------------------------------------------
-    integer ndof, feb, maxgdim
+    integer ndof, feb, fpb, maxgdim, maxgdim2
     integer, pointer :: gdim(:,:)
 
-    !------------------------------------------------------------------------
-    ! How electronic basis is handled
-    ! leb : set to true if operator contains an electronic basis
-    !------------------------------------------------------------------------
-    logical leb
+    !-----------------------------------------------------------------------
+    ! HOW ELECTRONIC BASIS IS HANDLED
+    !
+    !  leb       : set to true if operator contains an electronic basis
+    !  lmult     : multiple state calculation
+    !  lmulpack  : two or more wavepackets are propagated simultaneously
+    !-----------------------------------------------------------------------
+    logical leb,lmult,lmulpack
 
     !-----------------------------------------------------------------------
     ! VARIOUS INTEGERS DEFINING SIZE OF DVR
@@ -54,7 +58,17 @@ module griddat
     !-----------------------------------------------------------------------
     integer,pointer :: ipbaspar(:,:)
     real ,pointer :: rpbaspar(:,:)
+    real, pointer :: xend(:,:)
+
+    ! basis(f) : basis type for dof f. (dof=degree of freedom)
+    !     (0,1,2,3,4,5,6,7,8,9)->(el,HO,Leg,sin,FFT,exp,sphfbr,kleg,k,pleg)
+    !     (-1,11,12,13) -> blank basis (phifbr), rHO, Leg/r, external-DVR
+    !     (14,15,16,17,18) -> cos, Lagu1, Lagu2, Lagu3, Lagu4
+    !     (19) -> wigner
+    ! See einpbas.F in MCTDH program.
     integer,pointer :: basis(:)
+
+    logical,pointer :: ldvr(:)
     character*(c1), pointer :: modelabel(:)
 
     !---------------------------------------------------------------------
@@ -62,13 +76,20 @@ module griddat
     !
     ! lconm  (logical)  : calculation contains combined spf_s
     ! nmode    : number of spf degrees of freedom  (Also see ndof defined above)
+
     ! meb      : mode of the electronic basis (feb)
-    ! nstate: number of separate electronic states in calculation
+    ! mpb      : mode of the packet basis (fpb)  (useless, but we have to read from psi file)
 
     ! vgdim(f) : number of grid points for dofs preceeding f
     ! ngdim(f) : number of grid points for dofs following f
     ! subdim(m) : number of grid points for mode m
-    ! sdim : Max[subdim(m)]
+
+    ! npacket  : number of wavepackets to be propagated simultaneously (multi-set)
+    ! npackts  : number of wavepackets to be propagated simultaneously (single-set)
+    ! nstate: number of separate states in calculation
+    ! maxsubdim : Max[subdim(m)]
+
+
 
     ! nspfdof[nmode] : # of grid dof in each mode (single particle functions)
     ! spfdof[n,m]: index for grid dof in each combined mode. (n = 1 , nspfdof(m)), (m = 1, nmode)
@@ -76,7 +97,7 @@ module griddat
     ! See function griddef for more info.
     !--------------------------------------------------------------------
     logical lconm
-    integer nmode,meb,nstate, sdim
+    integer nmode,meb,mpb, nstate, maxsubdim, npacket, npackts
     integer, pointer :: subdim(:), vgdim(:), ngdim(:)
 
     integer,pointer :: nspfdof(:),spfdof(:,:),dofspf(:)

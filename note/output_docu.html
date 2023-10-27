@@ -1,0 +1,2004 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<HTML>
+<HEAD>
+  <META name="generator" content=
+  "HTML Tidy for Linux/x86 (vers 12 April 2005), see www.w3.org">
+
+  <TITLE>MCTDH: Output Documentation</TITLE>
+  <META http-equiv="Content-Type" content=
+  "text/html; charset=us-ascii">
+</HEAD>
+<!-- ====================================================== -->
+
+<BODY bgcolor="lightyellow" text="black" link="blue" vlink="gray"
+alink="magenta">
+  <H1 align="center"><B><BIG>Output Documentation</BIG></B></H1>
+
+  <H2><A name="general" id="general"></A>Generalities</H2>
+
+  <P>Files are created in a directory specified in the input file.
+  Which files are created depend on the options chosen. The files
+  created by the MCTDH program can be divided into three classes:
+  read-write files, information files, and data files.</P>
+
+  <P>The read-write files are used for program section
+  intercommunication:</P>
+
+  <UL>
+    <LI><A href="#dvrfile">The DVR File</A></LI>
+
+    <LI><A href="#operfile">The Oper File</A></LI>
+
+    <LI><A href="#rstfile">The Restart File</A></LI>
+
+    <LI><A href="#stopfile">The Stop File</A></LI>
+  </UL>The information files document what has happened during a
+  calculation:
+
+  <UL>
+    <LI><A href="#logfile">The Log File</A></LI>
+
+    <LI><A href="#oplogfile">The Op.log File</A></LI>
+
+    <LI><A href="#outputfile">The Output File</A></LI>
+
+    <LI><A href="#inputfile">The Input File</A></LI>
+  </UL>The data files provide the output needed for analysis of the
+  propagation:
+
+  <UL>
+    <LI><A href="#psifile">The Psi File</A></LI>
+
+    <LI><A href="#pdensityfile">The Pdensity File</A></LI>
+
+    <LI><A href="#dichtfile">The Gridpop File</A></LI>
+
+    <LI><A href="#checkfile">The Check File</A></LI>
+
+    <LI><A href="#autofile">The Auto Files</A></LI>
+
+    <LI><A href="#crossfile">The Cross File</A></LI>
+
+    <LI><A href="#ctracefile">The Ctrace Files</A></LI>
+
+    <LI><A href="#expectationfile">The Expectation File</A></LI>
+
+    <LI><A href="#stepsfile">The Steps File</A></LI>
+
+    <LI><A href="#updatefile">The Update File</A></LI>
+
+    <LI><A href="#timingfile">The Timing File</A></LI>
+
+    <LI><A href="#ptimingfile">The PTiming File</A></LI>
+
+    <LI><A href="#mpitimingfile">The MPITiming File</A></LI>
+
+    <LI><A href="#speedfile">The Speed File</A></LI>
+
+    <LI><A href="#veigefile">The Veigen File</A></LI>
+
+    <LI><A href="#eigvalfile">The Eigval File</A></LI>
+
+    <LI><A href="#lanczvecfile">The Lanczvec File</A></LI>
+
+    <LI><A href="#eigvecfile">The Eigvec File</A></LI>
+
+    <LI><A href="#orbenfile">The Orben File</A></LI>
+
+    <LI><A href="#rlx_infofile">The Rlx_info File</A></LI>
+
+    <LI><A href="#spwnevalfile">The Spwneval File</A></LI>
+
+    <LI><A href="#nspffile">The Nspf File</A></LI>
+  </UL>Which data files are created depends on the specification
+  given in the <A href=
+  "input_docu.html#runsection_data">Run-Section</A> of the input
+  file.<BR>
+  In a propagation or relaxation run the following file(s) are
+  <I>always</I> created: <B>check, log, op.log input</B>.<BR>
+  The following files are created by default, but <I>may</I> be
+  omitted: <B>timing, output, speed, stop, update</B>. (update is
+  created for CMF runs only).<BR>
+  The following files <I>may</I> be created on request:
+  <B>auto</B>, <B>autoe</B>, <B>auto1</B>, <B>auto2</B>,
+  <B>ctrace</B>, <B>cross</B>, <B>psi</B>, <B>veigen</B>,
+  <B>expectation</B>, <B>orben</B>, <B>pdensity</B>,
+  <B>gridpop</B>, and <B>steps</B>.<BR>
+  The <B>ptiming</B> and <B>mpitiming</B> files are created in
+  a parallel run by default, but <I>may</I> be omitted.
+
+  <P>In a diagonalisation run the following file(s) are
+  <I>always</I> created: <B>check</B> and <B>eigval</B>.<BR>
+  The following files <I>may</I> be created on request:
+  <B>timing</B>, <B>lancvec</B>, and <B>eigvec</B>.</P>
+
+  <P>In an improved relaxation run the following file is
+  <I>always</I> created: <B>rlx_info</B>.</P>
+
+  <P>Various of the read-write and data files have a header section
+  at the start, which contains information defining the data. This
+  header may be composed of what are termed <A href=
+  "#iodefs">standard definitions</A>, sets of data common to
+  different sections of the program.</P>
+  <HR size="4" noshade>
+
+  <P>
+  <!-- ====================================================== --></P>
+
+  <H2><A name="rwfiles" id="rwfiles"></A>The Read-Write Files</H2>
+
+  <H3><A name="dvrfile" id="dvrfile"></A>The DVR File</H3>The DVR
+  file is written by the gendvr section of the program. It contains
+  the information on the DVR basis, DVR grid, and first and second
+  derivatives. The following is written, unformatted:
+
+  <BLOCKQUOTE>
+    <PRE>
+HEADER:<TT>progver
+<A href="#dvrdef">dvrdef</A>
+creation date
+
+ortdim,dvrdim,fftdim,sphdim
+
+(zort(f),f=1,ndof)
+(zdvr(f),f=1,ndof)
+(zfft(f),f=1,ndof)
+(zsph(f),f=1,ndof)
+</TT><BR>
+<BR>
+
+DATA: <TT>(ort(g),g=1,ortdim)
+(trafo(g),g=1,dvrdim)
+dvrord
+((dvrmat(g,n),g=1,dvrdim),n=1,dvrord)
+(fftp(g),g=1,fftdim)
+(hin(g),g=1,fftdim)
+(rueck(g),g=1,fftdim)
+(fftfak(g),g=1,fftdim)
+(jsph(g),g=1,sphdim)
+(msph(g),g=1,sphdim)
+(kinsph(g),g=1,sphdim)
+</TT>
+</PRE>
+  </BLOCKQUOTE>
+  <HR size="2" noshade>
+
+  <H3><A name="operfile" id="operfile"></A>The Oper File</H3>The
+  oper file is written by the genoper section of the program. It
+  contains the information on the operator, i.e. a description of
+  the Hamiltonian terms, and the operators in the relevant DVR
+  basis required. The following is written, unformatted:
+
+  <BLOCKQUOTE>
+    <PRE>
+HEADER:<TT>progver
+<A href="#dvrdef">dvrdef</A>
+<A href="#grddef">grddef</A>
+operator title
+(mass(f),f=1,ndof)
+
+ktot,kzahl,nmulpot,fkoe
+do s=1,nstate
+   (khzahl(f,s),f=1,ndof)
+   ((unterm(k,f,s),k=1,khzahl(f,s)),f=1,ndof)
+enddo
+
+((hamilton(f,k),f=1,ndof+1),k=1,ktot)
+((diag(m,k),m=1,nmode),k=1,ktot)
+((kinop(m,k),m=1,nmode),k=1,ktot)
+
+(hopdim(f),f=1,ndof)
+((hoptype(h,f),h=1,hopdim(f)),f=1,ndof)
+
+(mpotdim(k),k=1,ktot)
+(isrf(k),k=1,ktot)
+(autocap(k),k=1,ktot)
+
+hopsdim
+((zhop(h,f),h=1,hopdim(f)),f=1,ndof)
+
+lcap,lcdvr,ltdvr
+
+do k=1,ktot
+   kact(k),ktwin(k),kf(k),ki(k)
+enddo
+</TT><BR>
+<BR>
+
+DATA: <TT>operator matrices/vectors
+</TT>
+</PRE>
+  </BLOCKQUOTE>
+  <HR size="2" noshade>
+
+  <H3><A name="rstfile" id="rstfile"></A>The Restart File</H3>
+
+  <P>Every <TT><A href=
+  "input_docu.html#runsection_tout">tout</A></TT> fs the restart
+  file is rewritten. This contains the wavefunction and other
+  relevant information, allowing a calculation to be continued,
+  restarted or recovered. The following is written,
+  unformatted:</P>
+
+  <BLOCKQUOTE>
+    <PRE>
+HEADER:<TT>progver
+<A href="#dvrdef">dvrdef</A>
+<A href="#grddef">grddef</A>
+<A href="#psidef">psidef</A>
+title
+creation date
+integrator information
+</TT><BR>
+<BR>
+
+DATA: <TT>time
+wavefunction
+</TT>
+</PRE>
+  </BLOCKQUOTE>
+
+  <P>where <TT>progver</TT> is the MCTDH program version with which
+  the file was written, and <TT>time</TT> is the time (in fs) for
+  the wavefunction.</P>
+
+  <P>In a diagonalisation run the <TT>restart</TT> file
+  additionally contains</P>
+
+  <BLOCKQUOTE>
+    <TT>diagonalisation flag</TT> (always true in a diagonalisation
+    run)<BR>
+    <TT>second Lanczos vector</TT> (the first one is stored in
+    <TT>wavefunction</TT>, see above)<BR>
+    <TT>number of iterations made so far</TT><BR>
+    <TT>on-diagonal elements of tridiagonal Lanczos matrix</TT><BR>
+    <TT>off-diagonal elements of tridiagonal Lanczos
+    matrix</TT><BR>
+  </BLOCKQUOTE>These data are required to continue the Lanczos
+  iteration with a larger order.
+  <HR size="2" noshade>
+
+  <H3><A name="stopfile" id="stopfile"></A>The Stop File</H3>
+
+  <P>If the keyword <I>no-stop</I> is not given in the &nbsp;
+  <A href="input_docu.html#runkey">Run-Section</A>, the program
+  opens the <TT><FONT size="+1">stop</FONT></TT>-file and writes
+  the following text to it:</P>
+  <PRE>
+continue
+hhh:mm  hhh:mm:ss  comment
+real    cpu       optional
+
+---------------------------------------------------------------------------
+ Replace "continue" by "stop   comment" or "hhh:mm  hhh:mm:ss  comment"
+ The first input (hhh:mm) refers to real-time, the second to cpu-time.
+ One of the time entries may be left blank.
+ The colon ":" must appear at the correct position, e.g :
+032:30             system update
+ will stop the run after 08:30 next day (8+24=32)
+ NB: The day-count starts after the first read of "hhh:mm",
+ e.g. after "continue" has been replaced by "hhh:mm".
+ A first line which reads:
+        000:56:30  time limit
+ will stop the run after the first output later than 56.5 cpu minutes
+
+ When this file (the stop file) is removed, the run will terminate
+ after next output. One may use the keywords "tstop" and "tcpu"
+ (Run-Section) to set the times "hhh:mm" and "hhh:mm:ss".
+---------------------------------------------------------------------------
+
+ &lt;tout&gt;
+
+</PRE>
+
+  <P>In the first line this file contains the word
+  <B><TT>continue</TT></B>. If during the calculation this word is
+  changed to <B><TT>stop</TT></B>, then the calculation will be
+  stopped after the next output of data. If <TT>continue</TT> is
+  changed to time given in the format <TT>hh:mm</TT> (followed by
+  ten blanks), then the calculation will be stoped after the first
+  output of data that happens after the indicated time. A
+  <TT>hh</TT> number that is larger than 24 refers to the next day.
+  The (optional) comment is written to log- and output-files.
+  The string &lt;tout&gt; is overwritten by the actual t-out time.<BR>
+  Similarly, if in column 8-15 one writes the maximal CPU time in
+  the format <TT>hh:mm:ss</TT>, then the calculation will be stoped
+  after the first output of data that happens after the indicated
+  CPU time has been used. Both times may be given or one of the two
+  time-inputs may be left blank.<BR>
+  The stop file can be edited while the job is running, or the
+  limits for real-time and CPU-time may be supplied via the
+  keywords <A href="input_docu.html#tstop" target=
+  "output_docu">tstop and tcpu</A>.<BR>
+  If the stop-keyword is given in the input but the stop-file
+  cannot be opened, the program will stop. Hence, alternatively to
+  replacing <TT>continue</TT> by <TT>stop</TT> one may just delete
+  the stop-file.<BR>
+  The stop-file is deleted when the program finishes. It may hence
+  serve as a lock-file. A shell script may search for a stop-file
+  and starts a continuation run only when there is no
+  stop-file.</P>
+  <HR size="4" noshade>
+
+  <P>
+  <!-- ====================================================== --></P>
+
+  <H2><A name="infofiles" id="infofiles"></A>The Information
+  Files</H2>
+
+  <H3><A name="logfile" id="logfile"></A>The Log File</H3>
+
+  <P>This file contains information such as type of calculation
+  performed, integrator used, information on DVR-grids, use of
+  explicit uncorrelated Hamiltonian terms, title of operator,
+  specified and minimum possible memory array sizes, which data
+  files are opened, any error messages, and much more "garbage".
+  Since this file is not used by other programs, feel free to add
+  any more information to the <TT>log</TT> file.</P>
+
+  <P>The information provided by the log file can be very helpful,
+  in particular when searching for errors. One should always
+  carefully inspect the log file.</P>
+  <HR size="2" noshade>
+
+  <P>
+  <!-- ====================================================== --></P>
+
+  <H3><A name="oplogfile" id="oplogfile"></A> The Op.log File</H3>
+
+  <P>This file contains information about the used operators. The
+  used description correspond to the internal build of the
+  operators.<BR>
+  For the sake of a better understanding of this file we will
+  clearify its structure with an example <A href=
+  "../examples/op.log.html">op.log</A> file to this related
+  <A href="../examples/h.op">operator input</A> .</P>
+
+  <UL>
+    <LI>
+      <PRE>
+DOF no.    label
+</PRE>
+    </LI>
+
+    <LI>
+      <PRE>
+Mode no.    DOF no.
+</PRE>
+    </LI>
+
+    <LI>
+      <PRE>
+Information for Hamiltonians
+</PRE>
+    </LI>
+
+    <LI>
+      <PRE>
+Parameters
+</PRE>All used parameters are listed in atomic units (a.u.).
+    </LI>
+
+    <LI>
+      <PRE>
+Operator Labels
+</PRE>The first column ("Label") gives the labels of the used
+constants and operators.<BR>
+      In the second column are the numbers relating to the relevant
+      function.<BR>
+      The last column ("file no.") contains the values of the
+      <A href="../code/genoper_docu.html#file_numbers">hopfile(hl)
+      array</A>.<BR>
+      For further information see the documentation of the <A href=
+      "../code/genoper_docu.html#opfuncs">OPFUNCS library</A> .
+    </LI>
+
+    <LI>
+      <PRE>
+Hamiltonian Operator Terms
+</PRE>This section contains details about the Hamiltonian
+terms.<BR>
+      No. is just the numbering.<BR>
+      The f-column indicates the DOF. K and T mean coefficient and
+      time information, respectively.<BR>
+      The m, md, Typ, and Sym columns contain the informations of
+      the <A href="../code/genoper_docu.html#hterm">htmmode(h),
+      htmmuld(h), htmtype(h), and htmsym(h) arrays</A>,
+      respectively.
+
+      <P><FONT size="+2">There are two types of operator-terms of
+      each used operator:</FONT></P>
+    </LI>
+
+    <LI>
+      <A href="../examples/op.log.html#Correlated_Terms">Correlated
+      Terms</A> These are those terms where modes from different
+      combined MCTDH-modes act together. The information in this
+      part comprises &lt; | H |kf&gt; The marked line in the
+      <A href=
+      "../examples/op.log.html#Correlated_Terms">example</A> means:
+
+      <UL>
+        <LI>k: the numbering</LI>
+
+        <LI>kt: the operator on which the operation has to be
+        performed (only for density operators)</LI>
+
+        <LI>act: 1=wave-functions; 2=pure-left; 3=pure-right;
+        4=left-right (only for density operators)</LI>
+
+        <LI>ki and kf are the states, e.g. &lt;=1 | H
+        |kf=2&gt;</LI>
+
+        <LI>coeff are the used coefficient in the <A href=
+        "../examples/op.log.html#Ham_Op_Terms">"Hamiltonian
+        Operator Terms"</A> section<BR>
+        (e.g., the constant <TT>coeff=lambda_5</TT>; its value in
+        a.u. is given in the <A href=
+        "../examples/op.log.html#Parameters">"Parameters"</A>
+        section)</LI>
+
+        <LI>the following three numbers correspond to the three
+        MCTDH-modes, which are shown in the <A href=
+        "../examples/op.log.html#MCTDH_modes">"Mode"</A> section.
+        In this example five degrees of freedom (5,8,12,14 and 15)
+        are combined to three MCTDH-modes.<BR>
+          The numbers correspond also to the entries of the
+          <A href="../examples/op.log.html#Ham_Op_Terms">"Hamiltonian
+          Operator Terms"</A> section. Numbers in parentheses stand
+          for further terms of the <A href=
+          "../examples/op.log.html#Ham_Op_Terms">"Hamiltonian
+          Operator Terms"</A> section.
+
+          <UL>
+            <LI>98 = (73)*(14) means:<BR>
+            Take No. 73 (=q) and No. 14 (=1) for this
+            MCTDH-mode.<BR>
+            This MCTDH-mode exists of two degrees of freedom, 5 and
+            14. The q stands for the place operator of the
+            corresponding degree of freedom: mode 5 (Q_5).<BR>
+            The 1 represents the identity operator for mode 14
+            (Q_14).</LI>
+
+            <LI>97 = (12)*(15):<BR>
+            For both degrees of freedom (mode 12 and 15) only the
+            identity operator occurs.</LI>
+
+            <LI>8 = 1:<BR>
+            For this degree of freedom only the identity takes
+            account.</LI>
+          </UL>
+        </LI>
+      </UL>
+
+      <P>The whole operator for this term then looks like:<BR>
+      &lt; 1 | H | 2 &gt; = <TT>lambda_5 * Q_5</TT>.<BR>
+      See the corresponding entry in the <A href=
+      "../examples/h.op#lambda_5">operator file</A> .<BR>
+      The operator labels can be found in the <A href=
+      "../examples/op.log.html#DOF">"DOF"</A> section.</P>
+    </LI>
+
+    <LI>
+      <A href=
+      "../examples/op.log.html#Uncorrelated_Terms">Uncorrelated
+      Terms</A> In these terms occur only parts of the operator
+      which are exclusively in the corresponding MCTDH-mode. These
+      terms are much easier to understand than the correlated ones:
+
+      <UL>
+        <LI>k=8 is a again just the numbering</LI>
+
+        <LI>m=1 signs the MCTDH-mode</LI>
+
+        <LI>s=2 denotes the electronic state</LI>
+
+        <LI>coeff=20 is the used coefficient in the <A href=
+        "../examples/op.log.html#Ham_Op_Terms">"Hamiltonian
+        Operator Terms"</A> section<BR>
+        (in this example No. 20 is just the identity)</LI>
+
+        <LI>The next two numbers describe the degree of freedom (5
+        and 14) for this MCTDH-mode<BR>
+
+          <UL>
+            <LI>87: take the related term from the <A href=
+            "../examples/op.log.html#Ham_Op_Terms">"Hamiltonian
+            Operator Terms"</A> section:<BR>
+            <TT>KEdvr*omega_5 + q^2*0.5*omega_5</TT><BR>
+            <TT>KEdvr</TT> and <TT>q</TT> are the kinetic energy
+            operator and the place operator for this mode, i.e.,
+            Q_5.<BR>
+            <TT>omega_5</TT> is a constant in a.u. which can be
+            found in the <A href=
+            "../examples/op.log.html#Parameters">"Parameters"</A>
+            section.</LI>
+
+            <LI>14: is again only the identity operator for this
+            mode.</LI>
+          </UL>
+        </LI>
+      </UL>
+
+      <P>The whole operator term for this MCTDH-mode consist of the
+      two red lines in the <A href=
+      "../examples/h.op#omega_5">operator file</A>.<BR></P>
+    </LI>
+  </UL>The used description correspond to the internal build of the
+  operators.<BR>
+  For the sake of a better understanding of this file we will
+  clearify its structure with an example <A href=
+  "../examples/op.log.html">op.log</A> file to this related
+  <A href="../examples/h.op">operator input</A> . There are two
+  types of operator-terms of each used operator:
+
+  <UL>
+    <LI>
+      <A href="../examples/op.log.html#Correlated_Terms">Correlated
+      Terms</A> These are those terms where modes from different
+      combined MCTDH-modes act together. The information in this
+      part comprises &lt; | H |kf&gt; The marked line in the
+      <A href=
+      "../examples/op.log.html#Correlated_Terms">example</A> means:
+
+      <UL>
+        <LI>k=3 is a just the numbering</LI>
+
+        <LI>ki=1 and kf=2 are the states</LI>
+
+        <LI>coeff=71 is the used coefficient in the <A href=
+        "../examples/op.log.html#Ham_Op_Terms">"Hamiltonian
+        Operator Terms"</A> section<BR>
+        (here: the constant <TT>lambda_5</TT>; its value in a.u. is
+        given in the <A href=
+        "../examples/op.log.html#Parameters">"Parameters"</A>
+        section)</LI>
+
+        <LI>the following three numbers correspond to the three
+        MCTDH-modes, which are shown in the <A href=
+        "../examples/op.log.html#MCTDH_modes">"Mode"</A> section.
+        In this example five degrees of freedom (5,8,12,14 and 15)
+        are combined to three MCTDH-modes.<BR>
+          The numbers correspond also to the entries of the
+          <A href="../examples/op.log.html#Ham_Op_Terms">"Hamiltonian
+          Operator Terms"</A> section. Numbers in parentheses stand
+          for further terms of the <A href=
+          "../examples/op.log.html#Ham_Op_Terms">"Hamiltonian
+          Operator Terms"</A> section.
+
+          <UL>
+            <LI>98 = (73)*(14) means:<BR>
+            Take No. 73 (=q) and No. 14 (=1) for this
+            MCTDH-mode.<BR>
+            This MCTDH-mode exists of two degrees of freedom, 5 and
+            14. The q stands for the place operator of the
+            corresponding degree of freedom: mode 5 (Q_5).<BR>
+            The 1 represents the identity operator for mode 14
+            (Q_14).</LI>
+
+            <LI>97 = (12)*(15):<BR>
+            For both degrees of freedom (mode 12 and 15) only the
+            identity operator occurs.</LI>
+
+            <LI>8 = 1:<BR>
+            For this degree of freedom only the identity takes
+            account.</LI>
+          </UL>
+        </LI>
+      </UL>
+
+      <P>The whole operator for this term then looks like:<BR>
+      &lt; 1 | H | 2 &gt; = <TT>lambda_5 * Q_5</TT>.<BR>
+      See the corresponding entry in the <A href=
+      "../examples/h.op#lambda_5">operator file</A> .<BR>
+      The operator labels can be found in the <A href=
+      "../examples/op.log.html#DOF">"DOF"</A> section.</P>
+    </LI>
+
+    <LI>
+      <A href=
+      "../examples/op.log.html#Uncorrelated_Terms">Uncorrelated
+      Terms</A><BR>
+      In these terms occur only parts of the operator which are
+      exclusively in the corresponding MCTDH-mode. These terms are
+      much easier to understand than the correlated ones:<BR>
+
+      <UL>
+        <LI>k=8 is a again just the numbering</LI>
+
+        <LI>m=1 signs the MCTDH-mode</LI>
+
+        <LI>s=2 denotes the electronic state</LI>
+
+        <LI>coeff=20 is the used coefficient in the <A href=
+        "../examples/op.log.html#Ham_Op_Terms">"Hamiltonian
+        Operator Terms"</A> section<BR>
+        (in this example No. 20 is just the identity)</LI>
+
+        <LI>The next two numbers describe the degree of freedom (5
+        and 14) for this MCTDH-mode<BR>
+
+          <UL>
+            <LI>87: take the related term from the <A href=
+            "../examples/op.log.html#Ham_Op_Terms">"Hamiltonian
+            Operator Terms"</A> section:<BR>
+            <TT>KEdvr*omega_5 + q^2*0.5*omega_5</TT><BR>
+            <TT>KEdvr</TT> and <TT>q</TT> are the kinetic energy
+            operator and the place operator for this mode, i.e.,
+            Q_5.<BR>
+            <TT>omega_5</TT> is a constant in a.u. which can be
+            found in the <A href=
+            "../examples/op.log.html#Parameters">"Parameters"</A>
+            section.</LI>
+
+            <LI>14: is again only the identity operator for this
+            mode.</LI>
+          </UL>
+        </LI>
+      </UL>
+
+      <P>The whole operator term for this MCTDH-mode consist of the
+      two red lines in the <A href=
+      "../examples/h.op#omega_5">operator file</A>.<BR></P>
+    </LI>
+  </UL>
+
+  <P>Additional information on how to interpret the output of
+  genoper to the op.log file can be found in the code description
+  of <A href="../code/genoper.html" target="_top">genoper</A>.</P>
+  <HR size="2" noshade>
+
+  <P>
+  <!-- ====================================================== --></P>
+
+  <H3><A name="outputfile" id="outputfile"></A>The Output File</H3>
+
+  <P>The output contains some standard results and will be saved to
+  file or written to the screen, depending on whether or not the
+  keyword <I>output</I> is given in the<I>&nbsp;</I> <A href=
+  "input_docu.html#runkey" target="output_docu">Run-Section</A> of
+  the input file. In a propagation or relaxation run every
+  <TT><A href="input_docu.html#runsection_tout" target=
+  "output_docu">tout</A></TT> fs, the following information is
+  output:</P>
+
+  <CENTER>
+    <TABLE>
+      <TR>
+        <TD>Total:</TD>
+
+        <TD><I>Time (fs), CPU-time (s), A-norm,&nbsp;</I>&nbsp;<BR>
+        <I>Etot (eV), Ecorr (eV), Delta-E (meV)</I></TD>
+      </TR>
+
+      <TR>
+        <TD>For each state:</TD>
+
+        <TD><I>population, Ecorr (eV), Etot (eV)</I></TD>
+      </TR>
+
+      <TR>
+        <TD>For each state:</TD>
+      </TR>
+
+      <TR>
+        <TD>For every mode:</TD>
+
+        <TD><I>Natural orbital population</I></TD>
+      </TR>
+
+      <TR>
+        <TD valign="top">For every mode:</TD>
+
+        <TD><I>Position expectation value &lt;x&gt;, standard
+        deviation Sqrt[&lt;x**2&gt;-&lt;x&gt;**2],</I>&nbsp;<BR>
+        <I>Momentum expectation value &lt;p&gt; (for FFT)
+        or</I>&nbsp;<BR>
+        <I>grid population expectation value &lt;n&gt; (for
+        DVR),</I>&nbsp;<BR>
+        <I>standard deviation of p or n</I></TD>
+      </TR>
+    </TABLE>
+  </CENTER>
+
+  <P>NB: The expectation values and standard deviations are
+  normalized with the population of the individual electronic state.
+  The state specific values for Etot and Ecorr are not normalized,
+  whereas the overall total energy is normalized by Norm**2, i.e.
+  (overall) E-tot = &lt;Psi|H|Psi&gt / &lt;Psi|Psi&gt .</P>
+
+  <P>The <TT>A-norm</TT> is the norm of the coefficients,&nbsp;
+  <I>Sqrt[Sum(A**2)]</I>.&nbsp; For each state this is the state
+  population, while the total should remain as 1.0. <TT>Ecorr</TT>
+  is the correlated Hamiltonian energy, <TT>Etot</TT> the total
+  energy, and the total <TT>Etot</TT> should be conserved (not
+  necessarily when mean-fields are held constant). <TT>Delta-E</TT>
+  is defined as <TT>Etot-Etot(t=0)</TT>. In a multi-packet run,
+  i.e. when <I>npacket</I> &gt; 1, the total energy and the norm of
+  the wavefunction, as given in the "total" part, are averaged over
+  the packets.</P>
+
+  <P>At the end of the propagation, a remark is output whether the
+  program terminated normally or has been stopped using the
+  <A href="#stopfile">Stop file</A>. Finally, total CPU-time, host,
+  date and time, path of the name-directory and (if specified in
+  the input) the title of the run are printed.</P>In a
+  diagonalisation run, only the number of Lanczos iterations, the
+  number of eigenvalues found, and the length of the Lanczos
+  vectors is put out, e.g.
+
+  <BLOCKQUOTE>
+    <PRE>
+Number of Lanczos iterations:      80
+Number of eigenvalues found:       60
+Length of Lanczos vectors:        128
+</PRE>
+  </BLOCKQUOTE>
+
+  <P>Again, a remark is given whether the program terminated
+  normally. Finally, total CPU-time, host, date and time, path of
+  the name-directory and (if specified in the input) the title of
+  the run are printed.</P>
+  <HR size="2" noshade>
+
+  <P>
+  <!-- ====================================================== --></P>
+
+  <H3><A name="inputfile" id="inputfile"></A>The Input File</H3>
+
+  <P>This file contains a copy of the input data, i.e. of the *.inp
+  and the *.op file.</P>
+  <HR size="4" noshade>
+
+  <P>
+  <!-- ====================================================== --></P>
+
+  <H2><A name="datafiles" id="datafiles"></A>The Data Files</H2>
+
+  <H3><A name="psifile" id="psifile"></A>The Psi File</H3>
+
+  <P>If the keyword <I>psi</I> is given in the<I>&nbsp;</I>
+  <A href="input_docu.html#runkey" target=
+  "output_docu">Run-Section</A>, the file <TT><FONT size=
+  "+1">name/psi</FONT></TT> is opened and the wavefunction array
+  <FONT size="+1"><TT>psi</TT></FONT> is saved every <TT><A href=
+  "input_docu.html#runsection_tout" target=
+  "output_docu">tpsi</A></TT> fs. The output is unformatted
+  complex.</P>
+
+  <BLOCKQUOTE>
+    <PRE>
+HEADER:<TT>progver
+<A href="#dvrdef">dvrdef</A>
+<A href="#grddef">grddef</A>
+<A href="#psidef">psidef</A>
+nopt,(lpsiopt(n),n=1,nopt)
+tinit,out2
+</TT><BR>
+<BR>
+
+DATA: <TT>wavefunction
+</TT>
+</PRE>
+  </BLOCKQUOTE>The wavefunction is written in the order in which it
+  is stored, i. e.:
+
+  <TABLE>
+    <TR>
+      <TD>For each state:</TD>
+
+      <TD><I>A-coefficients</I></TD>
+    </TR>
+
+    <TR>
+      <TD valign="top">For each mode:</TD>
+
+      <TD><I>single particle functions for 1st state</I>&nbsp;<BR>
+      <I>...</I>&nbsp;<BR>
+      <I>single particle functions for last state</I></TD>
+    </TR>
+  </TABLE>
+
+  <P>It is written using an <I>implicit</I> loop (in order to save
+  space on disk), i. e.:<BR>
+  <TT>write(ipsi) (cmplx(psi(d)), d=1,dgldim)</TT><BR></P>
+
+  <P>For a graphical illustration of the structure of the
+  wavefunction arry click <A href="../latex/wfstruc.ps" target=
+  "_top">here.</A></P>
+
+  <P>Note1: <TT><FONT size="+1">psi</FONT></TT> may be written in
+  single or double precision or in compact form. See the <A href=
+  "input_docu.html#runkey" target=
+  "output_docu">Run-Section</A>&nbsp; of the input file for further
+  details.</P>
+
+  <P>Note2: In the density operator programs the psi array contains
+  the density operator.</P>
+
+  <P>Note3: If the wavefunction is in exact format then all
+  elements of the A-vector are set to 1 (there are as many A-vector
+  components as there are electronic states). There is only one
+  (combined) single-particle function, the numerical exact
+  wavefunction.</P>
+  <HR size="2" noshade>
+
+  <P>
+  <!-- ====================================================== --></P>
+
+  <H3><A name="dichtfile" id="dichtfile"></A>The Gridpop File</H3>
+
+  <P>If the keyword <I>gridpop</I> is given in the<I>&nbsp;</I>
+  <A href="input_docu.html#runkey" target=
+  "output_docu">Run-Section</A> , then every <TT><A href=
+  "input_docu.html#runsection_tout" target=
+  "output_docu">tout</A></TT> fs the population of each grid point
+  and each momentum grid point (or basis representation) for each
+  degree of freedom is output, unformatted <TT>real*8</TT>, to the
+  <TT>gridpop</TT> file in the following format:</P>
+
+  <BLOCKQUOTE>
+    <PRE>
+HEADER:<TT>progver
+<A href="#dvrdef">dvrdef</A>
+<A href="#grddef">grddef</A>
+tinit,out1
+</TT><BR>
+<BR>
+
+DATA:
+</PRE>
+  </BLOCKQUOTE>
+
+  <TABLE>
+    <TR>
+      <TD>For each state: (only when <I>gridpop=el</I> is given in
+      the input file. Otherweise the population is summed over all
+      states.)</TD>
+    </TR>
+
+    <TR>
+      <TD>For each mode:</TD>
+    </TR>
+
+    <TR>
+      <TD>For each grid point:</TD>
+
+      <TD><I>population of the grid point</I></TD>
+    </TR>
+  </TABLE>
+  <HR size="2" noshade>
+
+  <P>
+  <!-- ====================================================== --></P>
+
+  <H3><A name="checkfile" id="checkfile"></A>The Check File</H3>
+
+  <P>The check file is written to every <TT><A href=
+  "input_docu.html#runsection_tout" target=
+  "output_docu">tout</A></TT> fs. It contains the wavefunction norm
+  (calculated from the coefficients only), the natural orbital
+  population values for each degree of freedom etc. to be read by
+  the <A href="../analyse/analyse.html" target="_top">Analysis
+  programs</A>. The ouput is unformatted <TT>real*8</TT>. The first
+  number is the program (i. e. output format) version. Then
+  follows, for each <TT>TOutput</TT> output time, the data in the
+  order:</P>
+
+  <BLOCKQUOTE>
+    <PRE>
+HEADER: <TT> progver
+   <A href="#dvrdef">dvrdef</A>
+   <A href="#grddef">grddef</A>
+   <A href="#psidef">psidef</A>
+   tinit,out1
+</TT><BR>
+<BR>
+
+DATA (for every propagation step): <TT>  (spop(s),ecorr(s),etot(s),s=1,nstate)
+
+   do s=1,nstate
+      do m=1,nmode
+         (dicht(m,s,i),i=1,dim(m,s))
+      enddo
+   enddo
+
+   norm, trace                                    ( only for densities,
+                                                    since Ver. 83 Rev. 5 )
+   do s=1,nstate
+      i=0
+      do m=1,nmode
+         do n=1,nspfdof(m)
+            i=i+1
+            f=spfdof(n,m)
+            q(i,s),dq(i,s),expn(i,s),dexpn(i,s)   (since Ver. 82 Rev. 2)
+         enddo
+      enddo
+   enddo
+
+</TT>
+</PRE>
+  </BLOCKQUOTE>
+
+  <TABLE>
+    <TR>
+      <TD>For each state:</TD>
+
+      <TD><I>norm, correlated energy, total energy</I></TD>
+    </TR>
+
+    <TR>
+      <TD>For each state:</TD>
+    </TR>
+
+    <TR>
+      <TD>For each mode:</TD>
+
+      <TD><I>natural orbital populations</I></TD>
+    </TR>
+  </TABLE>
+  <HR size="2" noshade>
+
+  <P>
+  <!-- ====================================================== --></P>
+
+  <H3><A name="autofile" id="autofile"></A>The Auto Files</H3>
+
+  <P>If the keyword <I>auto</I> is given in the <A href=
+  "input_docu.html#runkey" target="output_docu">Run-Section</A>,
+  every <TT><A href="input_docu.html#runsection_tout" target=
+  "output_docu">tout</A></TT> fs the auto-correlation function</P>
+
+  <BLOCKQUOTE>
+    <TT>c(2t) = &lt;psi<SUP>*</SUP>(t)|psi(t)&gt;</TT>&nbsp;
+    with&nbsp; <TT>t=n*tout</TT>
+  </BLOCKQUOTE>is output. This is used to calculate the absorption
+  spectrum. The argument <I>error</I> opens additionally the
+  <TT>autoe</TT> file which contains an auto-correlation function
+  computed with the least important natural orbital omitted.
+
+  <P>If the parameters <I>order1</I> or <I>order2</I> are given in
+  the input file, the first and second order auto-correlation
+  functions</P>
+
+  <BLOCKQUOTE>
+    <TT>c<SUP>(n)</SUP>(2t) =
+    &lt;psi<SUP>*</SUP>(t)|H<SUP>n</SUP>|psi(t)&gt; (n=1,2)</TT>
+  </BLOCKQUOTE>are written to the files <I>auto1</I> and
+  <I>auto2</I>, respectively. These files are employed in the
+  filter-diagonalisation method.
+
+  <P>In a multi-packet run, i.e. when <I>npacket</I> &gt; 1, the
+  files <I>auto</I>, <I>auto1</I>, and <I>auto2</I> contain cross-
+  rather than auto-correlation functions. The cross-correlation
+  functions are defined as</P>
+
+  <BLOCKQUOTE>
+    <TT>c<SUB>ab</SUB><SUP>(n)</SUP>(2t) =
+    &lt;psi<SUB>a</SUB><SUP>*</SUP>(t)|H<SUP>n</SUP>|psi<SUB>b</SUB>(t)&gt;</TT>,
+  </BLOCKQUOTE>where <I>a</I> and <I>b</I> enumerate the
+  wavepackets. These matrices are stored columnwise in the
+  corresponding files, e.g.
+  <TT>c<SUB>11</SUB>,c<SUB>21</SUB>,c<SUB>12</SUB>,c<SUB>22</SUB></TT>
+  if there are two packets, with one matrix element per line.
+
+  <P>The output of the files is formatted and in the format</P>
+  <PRE>
+#  time[fs]     Re(autocorrel)     Im(autocorrel)     Abs(autocorrel)
+   0.00000000   1.00000000000000   0.00000000000000   1.00000000000000
+   1.00000000  -0.20997305604067  -0.94892462752682   0.97187788995839
+   2.00000000  -0.81853614184398   0.36544890012746   0.89641191095902
+   3.00000000   0.44558991083218   0.65579825196272   0.79285668056263
+   4.00000000   0.50003471497158  -0.46061533315106   0.67985380877846
+   5.00000000  -0.43329600407928  -0.37165953561295   0.57085570642949
+</PRE>
+
+  <P>Note that for&nbsp; <I>auto=twice</I>&nbsp; the
+  autocorrelation functions are written every 0.5 <TT>TOutput</TT>
+  fs, yielding&nbsp; <TT>c(t)</TT> &nbsp; instead of&nbsp;
+  <TT>c(2t)</TT>. See the <A href="input_docu.html#runkey" target=
+  "output_docu">Run-Section</A> of the input file for further
+  details.</P>
+  <HR size="2" noshade>
+
+  <P>
+  <!-- ====================================================== --></P>
+
+  <H3><A name="crossfile" id="crossfile"></A>The Cross File</H3>
+
+  <P>If the keyword <A href=
+  "input_docu.html#crossdocu"><I>cross</I></A> is given in the
+  <A href="input_docu.html#runkey" target=
+  "output_docu">Run-Section</A>, every <TT><A href=
+  "input_docu.html#runsection_tout" target=
+  "output_docu">tout</A></TT> fs the cross-correlation function</P>
+
+  <BLOCKQUOTE>
+    <TT>c(t) = &lt;psi<SUB>ref</SUB>|psi(t)&gt;</TT>&nbsp;
+    with&nbsp; <TT>t=n*tout</TT>
+  </BLOCKQUOTE>is output to the <I>cross</I> file. See the <A href=
+  "input_docu.html#runkey" target="output_docu">Run-Section</A> of
+  the input file for further details.
+
+  <P>The output of the file is formatted and in the format</P>
+  <PRE>
+#    time[fs]         Re(cross-corr)     Im(cross-corr)     Abs(cross-corr)
+    0.000000000       0.01022653944480   0.00060353257912   0.01024433309640
+     1.00000000      -0.00797138392581  -0.01637809685553   0.01821496687622
+     2.00000000      -0.01698410940811   0.02026027317266   0.02643744770997
+     3.00000000       0.03269164125237   0.01153504157016   0.03466699571349
+     4.00000000       0.00089263280612  -0.04341396275159   0.04342313847620
+</PRE>
+  <HR size="2" noshade>
+  <!-- ====================================================== -->
+
+  <H3><A name="ctracefile" id="ctracefile"></A>The Ctrace
+  Files</H3>
+
+  <P>If the keyword <I>ctrace</I> is given in the <A href=
+  "input_docu.html#runkey" target="output_docu">Run-Section</A>,
+  every <TT><A href="input_docu.html#runsection_tout" target=
+  "output_docu">tout</A></TT> fs the function</P>
+
+  <BLOCKQUOTE>
+    <TT>c(t) = Tr( rho(S1,S2) )</TT>&nbsp; with&nbsp;
+    <TT>t=n*tout</TT>
+  </BLOCKQUOTE>is output, where <TT>S1,S2</TT> are given states.
+  This is used to calculate the absorption spectrum. The output of
+  the file is formatted as the auto files.
+  <HR size="2" noshade>
+
+  <P>
+  <!-- ====================================================== --></P>
+
+  <H3><A name="expectationfile" id="expectationfile"></A>The
+  Expectation File</H3>
+
+  <P>If the keyword <I>expect=S</I> is given in the <A href=
+  "input_docu.html#runkey" target="output_docu">Run-Section</A>,
+  every <TT><A href="input_docu.html#runsection_tout" target=
+  "output_docu">tout</A></TT> fs the expectation value of the
+  operator S is written to the <TT><FONT size=
+  "+1">expectation</FONT></TT> file in ASCII format. If multiple
+  operators are given, for every operator there are two columns
+  (real and imaginary part) in the <TT><FONT size=
+  "+1">expectation</FONT></TT> file. Note, output is the norm of
+  the WF (not norm**2) and the expectation value(s), i.e.
+  &lt;psi|O|psi&gt;/&lt;psi|psi&gt;. The information in this file
+  is equivalent to the information produced with the analyse
+  program <A href="../analyse/analyse_docu.html#expect" target=
+  "_top">expect</A> .</P>
+  <HR size="2" noshade>
+
+  <P>
+  <!-- ====================================================== --></P>
+
+  <H3><A name="pdensityfile" id="pdensityfile"></A>The Pdensity
+  File</H3>
+
+  <P>If the keyword <I>pdensity</I> is given in the <A href=
+  "input_docu.html#runkey" target="output_docu">Run-Section</A>,
+  every <TT><A href="input_docu.html#runsection_tout" target=
+  "output_docu">tout</A></TT> fs the one-particle density is
+  written to the <TT><FONT size="+1">pdensity</FONT></TT> file. If
+  no arguments are given with the <TT><FONT size=
+  "+1">pdensity</FONT></TT> keyword, one-particle densities for all
+  modes are output. If <TT><FONT size="+1">pdensity=I</FONT></TT>
+  is specified, only the one-particle density for the (contracted)
+  mode of number I is output. One may specify up to four mode
+  numbers. This may be done in order to keep the <TT><FONT size=
+  "+1">pdensity</FONT></TT> file small. The <TT><FONT size=
+  "+1">pdensity</FONT></TT> file is read by the analyse program
+  <A href="../analyse/analyse_docu.html#pexpect" target=
+  "_top">pexpect</A>. Note that the pdensity file contains the
+  one-particle density with respect to the (contracted) modes. The
+  gridpop file, for comparison, contains the diagonal part of the
+  density for all degrees of freedom.<BR>
+  The data is written to the pdensity file in the following
+  form:</P>
+  <PRE>
+         write(ipden) progver, log2int(lgpel)
+         write(ipden) nmode,nstate,((dim(m,s),m=1,nmode),s=1,nstate)
+         call wrrhoinfo(ipden)
+         FOR EACH TIME STEP DO
+         write(ipden) s,m, s,m, (avec(k),k=1,dim(m,s))
+         write(ipden) (psi(k),k=1,subdim(m)*dim(m,s))
+
+</PRE>Here <I>avec</I> contains the natural populations and
+<I>psi</I> the natural orbitals. <I>wrrhoinfo</I> writes the DVR-
+and the grid-definitions (dvrdef and grddef)to file.<BR>
+  Use the analyse routine <I>prhosub</I> to transform the data on
+  the pdensity file to coordinate representation, i.e. to
+  rho(x,x').
+  <HR size="2" noshade>
+
+  <P>
+  <!-- ====================================================== --></P>
+
+  <H3><A name="stepsfile" id="stepsfile"></A>The Steps File</H3>
+
+  <P>If the keyword <I>steps</I> is given in the<I>&nbsp;</I>
+  <A href="input_docu.html#runkey" target=
+  "output_docu">Run-Section</A>, the <TT><FONT size=
+  "+1">steps</FONT></TT> file is opened. The <TT><FONT size=
+  "+1">steps</FONT></TT> file contains information on the step
+  sizes and the corresponding errors made by the integrators. Note:
+  the information supplied by the <TT><FONT size=
+  "+1">steps</FONT></TT> file may be very useful, but the
+  <TT><FONT size="+1">steps</FONT></TT> file may become <I>very</I>
+  long!&nbsp; The output is formatted.</P>
+
+  <BLOCKQUOTE>
+    <P><TT>Time in fs: 1.00</TT>.</P>
+  </BLOCKQUOTE>
+
+  <P>In the following line the integrator is output. One is also
+  informed whether the complete MCTDH equation is integrated or
+  only the coefficients or one (and which) mode. Typically this
+  line has one of the following forms:</P>
+
+  <BLOCKQUOTE>
+    <P><TT>Complete equation: Adams-Bashforth-Moulton</TT><BR>
+    <TT>Mode 1: Bulirsch-Stoer</TT><BR>
+    <TT>A: Lanczos</TT></P>
+  </BLOCKQUOTE>
+
+  <P>The rest of the output depends on the integrator used.</P>
+
+  <P>For the <B>Adams-Bashforth-Moulton</B> (ABM)
+  predictor-corrector it looks like:</P>
+
+  <BLOCKQUOTE>
+    <PRE>
+Complete equation: Adams-Bashforth-Moulton
+    Step         Order      Stepsize in fs          Error
+     68            6        0.733652E-002       0.109774E-009
+     69            6        0.124267E-001       0.961385E-010
+     70            6        0.210485E-001       0.147705E-008
+     71            6        0.337200E-001       0.555701E-008
+     73            6        0.307112E-001       0.309803E-007
+     74            6        0.318530E-001       0.369706E-007
+     75            6        0.322134E-001       0.691726E-007
+</PRE>
+  </BLOCKQUOTE>
+
+  <P><TT>Step</TT> counts the integration steps. Note that a failed
+  step is counted but not put out. <TT>Order</TT> is the
+  integration order of the corresponding step, <TT>Stepsize</TT>
+  the size of the step in femtoseconds, and <TT>Error</TT> the
+  error made for this step.</P>
+
+  <P>For the <B>Bulirsch-Stoer</B> (BS) extrapolation method the
+  output has the form:</P>
+
+  <BLOCKQUOTE>
+    <PRE>
+Mode 1: Bulirsch-Stoer
+  Iteration  Small steps    Stepsize in fs           Error
+      1            2        0.500000E+000       0.000000E+000
+      2            4        0.500000E+000       0.301975E-004
+      3            6        0.500000E+000       0.161627E-005
+      4            8        0.500000E+000       0.593421E-007
+</PRE>
+  </BLOCKQUOTE>
+
+  <P><TT>Iteration</TT> counts the columns in the extrapolation
+  tableau. The integration order equals <TT>2*iteration+1</TT>.
+  <TT>Small steps</TT> is the number of steps made to integrate
+  over a large step the size of which is shown in the
+  <TT>Stepsize</TT> column. <TT>Error</TT> denotes the error. For
+  the first iteration the error is always zero and has no meaning.
+  The <TT>Stepsize</TT> will not change unless the extrapolation
+  does not converge within the allowed number of iterations (given
+  as <TT>order</TT> in the input file).</P>
+
+  <P>For the <B>Runge-Kutta</B> integrators of fixed order 5 and 8
+  (RK5/RK8), the output looks like this:</P>
+
+  <BLOCKQUOTE>
+    <PRE>
+Mode 2: Runge-Kutta order 5
+   Step        Accepted?    Stepsize [fs]      Error (scaled)       Time [fs]
+      1            0        0.900933E-01       0.131160E+01             0.000
+      2            1        0.774299E-01       0.602994E+00             0.000
+      3            1        0.525410E-01       0.618417E-01             0.077
+      4            1        0.743764E-01       0.301910E+00             0.130
+      5            1        0.456527E-01       0.206736E-01             0.204
+</PRE>
+  </BLOCKQUOTE>
+
+  <P><TT>Step</TT> counts the integrations steps for the current
+  integration interval. Rejected steps are also put out;
+  <TT>Accepted?</TT> indicates whether the step was accepted (1) or
+  not (0). <TT>Stepsize</TT> shows the size of the integration step
+  in femtoseconds. <TT>Error (scaled)</TT> gives a measure for the
+  error made in this step; if it's above 1.0, the step was
+  rejected, otherwise accepted. <TT>Time</TT> shows the starting
+  time for the current integration step in femtoseconds. (It should
+  increase by <TT>Stepsize</TT> when a step is accepted, or stay
+  constant when the step is rejected.)</P>
+
+  <P>The short iterative <B>Lanczos</B> or <B>Lanczos-Arnoldi</B>
+  (SIL) integrator can only be applied to the MCTDH-coefficients
+  (when the mean-fields are kept constant), or in a numerically
+  exact calculation, since the Lanczos scheme requires a linear
+  differential equation. The output looks like:</P>
+
+  <BLOCKQUOTE>
+    <PRE>
+A: Lanczos
+   Step          Order      Stepsize in fs           Error
+      4            1        0.250000E+000       0.593782E-001
+      4            2        0.250000E+000       0.329024E-002
+      4            3        0.250000E+000       0.193616E-003
+      4            4        0.250000E+000       0.952046E-005
+      4            5        0.250000E+000       0.418954E-006
+      4            6        0.250000E+000       0.190529E-007
+</PRE>
+  </BLOCKQUOTE>
+
+  <P><TT>Step</TT> counts the Lanczos steps, <TT>Order</TT> is the
+  order of integration (i. e. all Krylov-vectors up to
+  <TT>H^order|psi&gt;</TT> are computed). The rest should be
+  clear.</P>The Davidson integrator (used for improved relaxation
+  only) produces an output similar to the Lanczos one. However, the
+  Stepsize column shows the squared overlap beta rather than the
+  step-size (except for the very first line).
+  <HR size="2" noshade>
+
+  <P>
+  <!-- ====================================================== --></P>
+
+  <H3><A name="updatefile" id="updatefile"></A>The Update File</H3>
+
+  <P>If the keyword <I>update</I> is given in the<I>&nbsp;</I>
+  <A href="input_docu.html#runkey" target=
+  "output_docu">Run-Section</A> , and a constant mean-fields
+  calculation with adaptive update-interval has been selected, the
+  <TT>update</TT> file is opened. It contains information on the
+  update steps and the corresponding errors. The output is
+  formatted and looks typically like:</P>
+  <PRE>
+Update-step  Updatetime   Error of A      Error of phi   Time in fs
+     1       0.40000000   0.139600E-008   0.167591E-007    0.0000
+     2       0.40000000   0.329630E-008   0.440428E-007    0.4000
+     3       0.80000000   0.406385E-006   0.444941E-006    0.8000
+     4       0.80000000   0.130705E-005   0.100519E-005    1.6000
+     5                    0.723068E-004
+     5       0.40000000   0.251409E-006   0.754364E-006    2.4000
+     6       0.40000000   0.122548E-005   0.338185E-006    2.8000
+     7
+     7       0.20000000   0.511988E-005   0.235645E-005    3.0000
+</PRE>
+
+  <P>Each line contains the number of the current update step, the
+  update-time, the error of the coefficients and the
+  single-particle functions, and the time (in fs). For a failed
+  step (like step 5), only the number of the step and the error of
+  either coefficients or single-particle functions (whichever
+  caused the repetition of the step) is output.</P>
+
+  <P>The error estimate of the MCTDH-coefficients requires a
+  backward propagation. If the Lanczos integrator did not converge
+  within the maximum order but needed more than one step, the
+  Krylov space does not belong to correct psi anymore. In that
+  case, the back-propagation which uses the "old" Krylov vectors
+  would lead to wrong results, so the update-interval is reduced
+  and the step is repeated. For such a failed update step, only the
+  number of the step is given in the update file (as in step
+  7).</P>
+  <HR size="2" noshade>
+
+  <P>
+  <!-- ====================================================== --></P>
+
+  <H3><A name="timingfile" id="timingfile"></A>The Timing File</H3>
+
+  <P>If the keyword <I>timing</I> is given in the<I>&nbsp;</I>
+  <A href="input_docu.html#runkey" target=
+  "output_docu">Run-Section</A>, then various timing statistics are
+  written to this file. For each listed subroutine the number of
+  times the routine is called and the total CPU time (user and
+  system) spent in the routine and in all subroutines below it are
+  written, as well as the user time per function call. If the
+  keyword <I>ptiming</I> is given in the <I>&nbsp;</I>
+  <A href="input_docu.html#runkey" target= "output_docu">Run-Section</A>
+  for a non parallel calculation the timing file is more detailed.<BR>
+  Note: not all entries occur during every calculation!</P>
+
+  <TABLE border bgcolor="lightblue">
+    <TR>
+      <TH>Name</TH>
+
+      <TH>Routine-Description</TH>
+    </TR>
+
+    <TR>
+      <TD>ABM</TD>
+
+      <TD>The ABM integration scheme</TD>
+    </TR>
+
+    <TR>
+      <TD>BS</TD>
+
+      <TD>Bulirsch-Stoer integrator</TD>
+    </TR>
+
+    <TR>
+      <TD>DAV</TD>
+
+      <TD>Davidson diagonaliser (improved relaxation)</TD>
+    </TR>
+
+    <TR>
+      <TD>cross</TD>
+
+      <TD>Calculation of cross-correlation</TD>
+    </TR>
+
+    <TR>
+      <TD>Density</TD>
+
+      <TD>Calculatin of density matrices</TD>
+    </TR>
+
+    <TR>
+      <TD>FBRint</TD>
+
+      <TD>Computation of FBR-integrals in a spherical harmonics
+      basis</TD>
+    </TR>
+
+    <TR>
+      <TD>Funk0</TD>
+
+      <TD>Calculates the mean-field and inverse density matrices
+      and the time derivative of the MCTDH-coefficients without
+      computing the time derivative of the single-particle
+      functions</TD>
+    </TR>
+
+    <TR>
+      <TD>Funk1</TD>
+
+      <TD>Computes the time derivative of the single-particle
+      functions without recomputing the density and mean-field
+      matrices</TD>
+    </TR>
+
+    <TR>
+      <TD>Funk2</TD>
+
+      <TD>Computes - after having propagated the single-particle
+      functions - the matrix elements needed for the propagation of
+      the A-coefficients</TD>
+    </TR>
+
+    <TR>
+      <TD>Funk3</TD>
+
+      <TD>Performs an evaluation of the right hand side of the
+      MCTDH working equation for the MCTDH-coefficients. Used when
+      only the A-coefficients are propagated.</TD>
+    </TR>
+
+    <TR>
+      <TD>Funka</TD>
+
+      <TD>MCTDH module that calls the routines that compute the
+      right hand side of the MCTDH working equations</TD>
+    </TR>
+
+    <TR>
+      <TD>Funkex</TD>
+
+      <TD>Performs an evaluation of the right hand side of the
+      MCTDH working equation for the MCTDH-coefficients. Used when
+      a numerically exact wavepacket is propagated.</TD>
+    </TR>
+
+    <TR>
+      <TD>Funkphi N</TD>
+
+      <TD>Computes the time derivative of the single-particle
+      functions of mode N with mean-field and inverse density
+      matrices held constant. The projector is applied after the
+      uncorrelated Hamiltonian terms have been added</TD>
+    </TR>
+
+    <TR>
+      <TD>Funkr</TD>
+
+      <TD>Calculates the derivative wrt time of the MCTDH
+      wavefunction</TD>
+    </TR>
+
+    <TR>
+      <TD>genDVR</TD>
+
+      <TD>The build of the DVR</TD>
+    </TR>
+
+    <TR>
+      <TD>genOPER</TD>
+
+      <TD>The build of the PES and the operator</TD>
+    </TR>
+
+    <TR>
+      <TD>initWF</TD>
+
+      <TD>The initialization of the wave-function</TD>
+    </TR>
+
+    <TR>
+      <TD>Lanczos</TD>
+
+      <TD>Diagonalizing a real symmetric or complex Hermitian
+      matrix using the Lanczos algorithm</TD>
+    </TR>
+
+    <TR>
+      <TD>MFields</TD>
+
+      <TD>Calculate mean-fields and - if required - dtpsi
+      (adim)</TD>
+    </TR>
+
+    <TR>
+      <TD>opWF</TD>
+
+      <TD>The operation on the inital wavepacket by a defined
+      operator</TD>
+    </TR>
+
+    <TR>
+      <TD>orben</TD>
+
+      <TD>Computation of the averaged mean-field and the energy
+      orbitals</TD>
+    </TR>
+
+    <TR>
+      <TD>Output</TD>
+
+      <TD>The system requirments for the various output (e.g.
+      expectation values)</TD>
+    </TR>
+
+    <TR>
+      <TD>SIL</TD>
+
+      <TD>The short iterative Lanczos (SIL) integration
+      routine</TD>
+    </TR>
+
+    <TR>
+      <TD>Startup</TD>
+
+      <TD>The whole startup and initialization procedure</TD>
+    </TR>
+
+    <TR>
+      <TD>RK5</TD>
+
+      <TD>Runge-Kutta integrator of order 5</TD>
+    </TR>
+
+    <TR>
+      <TD>RK8</TD>
+
+      <TD>Runge-Kutta integrator of order 8</TD>
+    </TR>
+
+    <TR>
+      <TD>trafo</TD>
+
+      <TD>Transformation to natural or energy orbitals (CMF)</TD>
+    </TR>
+
+    <TR>
+      <TD>phihphi</TD>
+
+      <TD>Correlated Hamiltonian matrix element computation (ptiming)</TD>
+    </TR>
+
+    <TR>
+      <TD>calcha</TD>
+
+      <TD>Action of the correlated Hamiltonian on the MCTDH-coefficients (ptiming)</TD>
+    </TR>
+
+    <TR>
+      <TD>summf</TD>
+
+      <TD>Sum of the mean-field matrices times the single-particle potential operators (ptiming)</TD>
+    </TR>
+
+    <TR>
+      <TD>hlochphi1m</TD>
+
+      <TD>Product of the mean-field matrices and h|phi> (ptiming)</TD>
+    </TR>
+
+    <TR>
+      <TD>Funkphi</TD>
+
+      <TD>Computes the time derivative of the single-particle functions (ptiming)</TD>
+    </TR>
+
+    <TR>
+      <TD>dsteqr</TD>
+
+      <TD>Computes all eigenvalues eigenvectors of a symmetric tridiagonal matrix (ptiming)</TD>
+    </TR>
+  </TABLE>
+
+  <P>The different statistics give very rich informations for the
+  optimization of a MCTDH calculation. Important are the statistics
+  for the Bulirsch-Stoer (BS) integrator and the numerical effort
+  for the mean-field (MFields) calculations. Click <A href=
+  "../examples/timing">here</A> for an example of a timing
+  file.</P>
+  <HR size="2" noshade>
+
+  <P>
+  <!-- ====================================================== --></P>
+
+  <H3><A name="ptimingfile" id="ptimingfile"></A>The PTiming File</H3>
+
+  <P>If the keyword <I>usepthreads</I> is given in the<I>&nbsp;</I>
+  <A href="input_docu.html#runkey" target=
+  "output_docu">Run-Section</A>, the shared memory parallelization
+  of MCTDH is used and a <TT><FONT size="+1">ptiming</FONT></TT> file
+  is opened. The <TT><FONT size="+1">ptiming</FONT></TT> file contains
+  timing information for the shared memory parallel routines. The
+  output is formatted and consists of four + P columns, where P
+  is the number of POSIX-threads used:</P>
+  <PRE>
+  Subroutine        Calls       cpu        sum   thread: 1  thread: 2
+   phihphi             52     822.72     822.83    411.44     411.39
+   calcha             168   11297.70   11363.55   5680.55    5683.00
+   mfields             51    8054.95    8055.37   4026.99    4028.38
+   summf               51    4991.97    9529.60   4764.80    4764.80
+   hlochphi1m        5617   11071.72   11204.26   5667.22    5537.04
+   funkphi           5237     716.71     726.63    329.93     396.70
+</PRE>
+
+  <P>The entries are the name of the subroutine, the number of calls
+  of this routine, the CPU-time spent in this routine, the sum of
+  the real times spent in the threads and the real time spent in
+  each thread. Thus the efficiency of the parallelization can be
+  checked. The routines are well parallelized if the CPU-time and
+  the sum of the real times are similar (see users guide). The
+  purpose of the subroutines can be found in the table for the timing
+  file. If the shared memory parallelization is combined with the
+  distributed memory parallelizatioin and the keyword <I>ptiming=all</I>
+  is set then for each MPI-process a ptiming file is created.<P>
+  <HR size="2" noshade>
+
+  <P>
+  <!-- ====================================================== --></P>
+
+  <H3><A name="mpitimingfile" id="mpitimingfile"></A>The MPITiming File</H3>
+
+  <P>If the keyword <I>usempi</I> is given in the<I>&nbsp;</I>
+  <A href="input_docu.html#runkey" target=
+  "output_docu">Run-Section</A>, the <TT><FONT size=
+  "+1">mpitiming</FONT></TT> file is opened. This file contains
+  timing information for each MPI-process. The output is formatted and
+  consists of three or four columns:</P>
+  <PRE>
+   Process          cpu          %cpu    sum real time ( 4)
+  ---------------------------------------------------------
+      0         51811.34        50.31     51574.81
+      1         51168.49        49.69     51095.79
+</PRE>
+
+  <P>The entries are the number of the MPI-process (0 being the
+  master process), the total CPU-time spent in this process and the
+  percentage of the whole CPU-time from this process. The fourth
+  column appears if the shared and the distributed memory parallelization
+  are combined. This column denotes the number of threads for each
+  MPI-process in brackets (4 in this example) and gives the sum of the
+  real times over each shared memory parallel routine and over the threads.
+  This is similar to the ptiming file but the real time is summed
+  additionally over the routines. If the CPU-time for each MPI-process
+  is similar then the distributed memory parallelization works efficiently.
+  If additionally the sum of real time is equal to the cpu time also
+  the shared memory parallelization is efficient (see ptiming file).</P>
+  <HR size="2" noshade>
+
+  <P>
+  <!-- ====================================================== --></P>
+
+  <H3><A name="speedfile" id="speedfile"></A>The Speed File</H3>
+
+  <P>If the keyword <I>speed</I> is given in the<I>&nbsp;</I>
+  <A href="input_docu.html#runkey" target=
+  "output_docu">Run-Section</A>, the <TT><FONT size=
+  "+1">speed</FONT></TT> file is opened. The <TT><FONT size=
+  "+1">speed</FONT></TT> file contains the CPU-time spent between
+  two consecutive outputs and thus measures the speed of the
+  propagation. The data is written every <TT><A href=
+  "input_docu.html#runsection_tout" target=
+  "output_docu">tout</A></TT> fs to the file (except for
+  <TT>t=</TT> <TT><A href="input_docu.html#runsection_tinit"
+  target="output_docu">tinit</A></TT>). The output is formatted and
+  consists of four columns:</P>
+  <PRE>
+#    Time[fs]    CPU-time[s]     Delta-CPU      Real time
+#        0.00            0.6                    Jan 26 21:40:13
+         0.50            1.0         0.430      Jan 26 21:40:13
+         1.00            1.8         0.800      Jan 26 21:40:14
+</PRE>
+
+  <P>The entries are the propagation time, the total CPU-time, the
+  CPU-time since the last output, and the real date and time. In
+  the example, the program needed 0.6 CPU-seconds for setting up
+  the Hamiltonian, the primitive and single-particle function
+  basis, and the initial wavefunction. The propagation of the first
+  0.5 fs required 0.43 CPU-seconds, that of the second 0.8
+  CPU-seconds.</P>
+  <HR size="2" noshade>
+
+  <P>
+  <!-- ====================================================== --></P>
+
+  <H3><A name="veigefile" id="veigefile"></A>The Veigen File</H3>
+
+  <P>If the keyword <I>veigen</I> is given in the<I>&nbsp;</I>
+  <A href="input_docu.html#runkey" target=
+  "output_docu">Run-Section</A> and the keywords <TT>build</TT> and
+  <TT>eigenf</TT> are chosen in the INIT_WF-SECTION, the
+  eigenvalues and eigenfunctions generated when building the
+  initial wavepacket are written to the file
+  veigen_<I>modelabel</I>. The output is formatted and contains the
+  following information:<BR>
+  The first two lines give some information on the Hamiltonian
+  which was diagonalised and the DOF. Then follows a list of all
+  eigenvalues, and then all eigenvectors are printed (first column:
+  coordinate, second column: value).</P>
+  <HR size="2" noshade>
+
+  <P>
+  <!-- ====================================================== --></P>
+
+  <H3><A name="eigvalfile" id="eigvalfile"></A>The Eigval
+  File</H3>In a diagonalisation run, the computed eigenvalues,
+  intensities, and error estimates of the eigenvalues are written
+  to the <TT>eigval</TT> file. The file has the form
+  <PRE>
+# Number   Eigenvalue [eV]     Intensity         Eigenerror [eV]
+       1   1.0000000000000027  5.645794565E-007  6.764435784E-012
+       2   2.9999999999999978  4.608811890E-006  6.764435784E-012
+       3   5.0000000000000968  2.083853133E-005  6.764435784E-012
+       4   7.0000000000055600  6.858159072E-005  1.919798403E-010
+       5   9.0000000002631015  1.829218512E-004  8.624632946E-009
+       6  11.0000000085855483  4.184441941E-004  2.654579026E-007
+       7  13.0000002009788531  8.498156632E-004  5.821914155E-006
+       8  15.0000034612080793  1.567951643E-003  9.312889649E-005
+       9  17.0000444999398681  2.671605744E-003  1.099214779E-003
+      10  19.0004294936165792  4.256557063E-003  9.576380504E-003
+      11  21.0031004573831979  6.413115556E-003  6.078459278E-002
+      12  23.0165505793464291  9.264673560E-003  2.738499830E-001
+</PRE>Note that if the keyword <TT>energy-not-ev</TT> was specified
+in the input, the eigenvalues and corresponding errors are given in
+atomic units.
+  <HR size="2" noshade>
+
+  <P>
+  <!-- ====================================================== --></P>
+
+  <H3><A name="lanczvecfile" id="lanczvecfile"></A>The Lanczvec
+  File</H3>In a diagonalisation run the Lanczos vectors are written
+  (if desired) to the <TT>lanczvec</TT> file. The file is in binary
+  format. Each Lanczos vector is written as double precision
+  complex numbers using an implicit loop, i.e.:
+
+  <BLOCKQUOTE>
+    <PRE>
+write(ilancz) (lanczvec(i), i=1,lanczdim)
+</PRE>
+  </BLOCKQUOTE>The length of the Lanczos vectors is given in the
+  <TT>output</TT> and <TT>log</TT> files. The number of Lanczos
+  vectors equals the number of iterations specified in the input
+  file, which can also be found in the <TT>output</TT> and
+  <TT>log</TT> files.
+  <HR size="2" noshade>
+
+  <P>
+  <!-- ====================================================== --></P>
+
+  <H3><A name="eigvecfile" id="eigvecfile"></A>The Eigvec
+  File</H3>In a diagonalisation run those eigenvectors of the
+  tridiagonal Lanczos matrix that correspond to correct (i.e. not
+  spurious) eigenvalues are written (if desired) to the
+  <TT>eigvec</TT> file. The file is in binary format. Each
+  eigenvector is written as double precision real numbers using an
+  implicit loop, i.e.:
+
+  <BLOCKQUOTE>
+    <PRE>
+write(ieigvec) (eigvec(i), i=1,eigdim)
+</PRE>
+  </BLOCKQUOTE>The length of the eigenvectors equals the number of
+  Lanczos iterations, which is given in the <TT>output</TT> and
+  <TT>log</TT> files. The number of eigenvectors equals the number
+  of eigenvalues found, which is also given in the <TT>output</TT>
+  and <TT>log</TT> files.
+  <HR size="2" noshade>
+
+  <P>
+  <!-- ====================================================== --></P>
+
+  <H3><A name="orbenfile" id="orbenfile"></A>The Orben File</H3>The
+  orbital energies and their weights are written at the end of each
+  output interval to the file orben, if the keyword orben is set in
+  the RUN-SECTION. The orbital energies are defined as the
+  eigenvalues of an averaged 1D Hamiltonian, H<SUB>av</SUB>&nbsp;,
+  in the basis of the single-particle functions. The trace of the
+  mean-field operators is taken as the averaged 1D Hamiltonian. The
+  orben file contains the eigenvalues and the weights of the
+  corresponding "energy orbitals". The weights allow to
+  characterise a wavefunction by their single-particle quantum
+  numbers. This is in particular useful in a relaxation run. The
+  average energy is defined as the sum of the eigen-energies times
+  weights. This energy differs slightly from the energy printed in
+  the output, because here one computes the expectation value of
+  H<SUB>av</SUB>&nbsp;, not of H.
+  <HR size="2" noshade>
+
+  <P>
+  <!-- ====================================================== --></P>
+
+  <H3><A name="rlx_infofile" id="rlx_infofile"></A>The Rlx_info
+  File</H3>The rlx_info file contains information on an <I>improved
+  relaxation</I> run. This file contains slightly different
+  information, depending whether the SIL or the DAV "integrator" is
+  used to diagonalise H in the set of the SPFs. Because DAV is much
+  more efficient, we discuss here only the DAV output. (This output
+  is produced by running $MCTDH_DIR/inputs/hono.dav.inp)
+
+  <P>At the beginning and at the end of the rlx_info file the
+  program prints the eigenvalues (in eV) of the very first and the
+  very last diagonalisation. In between these two blocks it prints
+  some information on the orbital relaxation and the
+  diagonalisation steps. This information is much easier to read
+  (because it gets sorted) by running the script <I>rdrlx</I> .
+  rdrlx produces an output like:&nbsp;</P>
+  <PRE>
+ Lost SPFs :   dim - Sum[square of orbital overlap matrixi elements]
+    time   s    m=1     m=2     m=3     m=4     m=5    m=5     m=7     m=8
+    1.000  1  0.0055  0.3229  0.4793  0.7916
+    3.714  1  0.0355  0.3411  1.6491  1.6834
+   11.857  1  0.0343  0.3406  2.8734  1.8022
+   20.000  1  0.0535  0.3405  3.1553  1.8627
+   40.000  1  0.0899  0.3409  2.9795  1.9431
+   60.000  1  0.0921  0.3406  3.6452  2.1011
+
+After Davidson   T =   0.000      0.9866963606 eV,  -17.0485200565 meV
+After Davidson   T =   1.000      0.9866478851 eV,    0.0017504888 meV
+After Davidson   T =   3.714      0.9866355764 eV,    0.0000698917 meV
+After Davidson   T =  11.857      0.9866353736 eV,    0.0004596297 meV
+After Davidson   T =  20.000      0.9866351837 eV,    0.0011511134 meV
+After Davidson   T =  40.000      0.9866347004 eV,    0.0004938465 meV
+After Davidson   T =  60.000      0.9866354600 eV,    0.0031944302 meV
+
+After Relaxation T =   1.000      0.9866461346 eV,   -0.0502260015 meV
+After Relaxation T =   3.714      0.9866355065 eV,   -0.0123785839 meV
+After Relaxation T =  11.857      0.9866349140 eV,   -0.0006624254 meV
+After Relaxation T =  20.000      0.9866340326 eV,   -0.0013410604 meV
+After Relaxation T =  40.000      0.9866342065 eV,   -0.0009771635 meV
+After Relaxation T =  60.000      0.9866322656 eV,   -0.0024347370 meV
+
+
+
+   time  order   q   beta*1000     Energy[ev]         ovl*1000    Delta-E
+   -20.0    0    0   0.000E+00    1.003 744 880 671  1000.0000   0.000E+00
+   0.000  208   80   923.06088    0.986 696 360 614   923.0609  -1.705E-02
+   1.000  217   84   998.67071    0.986 647 885 112   922.1870  -4.848E-05
+   3.714  207   83   999.83633    0.986 635 576 422   922.3830  -1.231E-05
+  11.857  220   86   999.91423    0.986 635 373 623   922.2775  -2.028E-07
+  20.000  220   86   999.85515    0.986 635 183 684   922.3543  -1.899E-07
+  40.000  211   84   999.88363    0.986 634 700 376   922.3439  -4.833E-07
+  60.000  227   88   999.72612    0.986 635 462 900   922.2617   7.625E-07
+</PRE>Let us discuss the last of the four blocks first. The first
+line, which is given some (artificial) negative time, gives the
+expectation value of the initial WF. The other data in this line is
+meaningless. The program then diagonalises the Hamiltonian in the
+set of initial SPFs. The result is shown in the second line for
+T=0. (By the way, the energy unit may be set through the keyword
+<I>rlxunit</I> in the Run-Section). Hence, 187 Davidson iterations
+were needed for convergence, the seeked eigenvalue is the 74-th one
+(counting from 0) and the overlap-squared of the new A-vector with
+the A-vector of the previous diagonalisation (in this case the
+starting vector) is beta=0.923108 . The column <I>ovl</I> displays
+the squared overlap with the initial WF. This column is filled with
+zeros, if the keyword <I>lock</I> is not given as an extension to
+<I>relaxation</I>. The last column shows the energy change over one
+iteration step.
+
+  <P>The very first diagonalisation lowers the energy by 17 meV as
+  shown by the first line of the second block (After Davidson T =
+  0.0). Then the orbitals are relaxed by imaginary time propagation
+  over 1 fs. This leads to another lowering of the energy by 0.05
+  meV (After Relaxation T = 1.0). The diagonalisation within this
+  new set of SPFs increases the energy by 0.00267 meV. And so on.
+  One can show that orbital relaxation will always lower the
+  energy. (If there should be a small energy increase, this is due
+  to insufficient accuracy of the integrator. It can be cured by
+  increasing the integrator accuracy parameter and by lowering the
+  regularisation constant (<I>eps_inv</I>) of the density matrix.)
+  The diagonalisation, however, may lead to a positive or negative
+  energy change.</P>
+
+  <P>The first block provides information on how much the orbitals
+  have changed. For each mode dim - tr{P(t) P(0)} is displayed,
+  where dim denotes the number of SPFs, P(t) the projector onto the
+  SPFs of time t, and P(0) the projector onto the initial SPFs.
+  This number may be interpreted as the number of orbitals removed
+  from the initial set of orbitals and replaced by new ones. If
+  this numer is large, the choice of the set of initial SPFs was
+  poor.</P>
+
+  <P>Note that the script <I>rdrlax</I> may be called with an
+  option to print only one of the above four blocks. See <I>rdrlax
+  -h</I>.</P>
+
+  <P>If the complex version, CDAV, is run, there will be two lines
+  for each time in the last block. The additional lines give the
+  imaginary parts of the energies.</P>
+
+  <P>Some numbers may be augmented with a star, *, to indicate that
+  convergence may be lost. A star is added to <I>order</I> when the
+  maximal number of iterations is reached, to <I>beta</I> when it
+  is lower than 2/3 and to <I>ovl</I> when it is lower than 1/2. If
+  beta is very close to one, 1-beta is printed in E-format, rather
+  than beta*1000 in F-format.</P>
+
+  <P>An additional block of information may be printed before the
+  last block. This happens, when the Davidson iterates on an other
+  vector than the one with the largest beta. Such an additional
+  block looks like:</P>
+  <PRE>
+  time   order   q  q1    beta   beta1    ovl     ovl1    E           E1
+   0.000   82   33  34    1.52  925.96    0.00 1000.00  0.984355  0.987941
+   0.000  112   45  47    0.00  925.96    0.00 1000.00  0.984041  0.987941
+</PRE>This block was created because the keyword <I>full</I> was
+given as second argument to <I>relaxation</I>. In this case the
+Davidson does not stop after the seeked state is converged, but
+continues to iterate on the state below. Hence at time=0
+(<I>full</I> changes the behaviour of the Davidson only for the
+very first diagonalisation, i.e. only for T=0) and after order=82
+iterations the seeked state q1=34 has an overlap beta1 and an
+energy E1. The iteration is then continued with the q=33 state with
+(not necessarily converged) energy E. This state converges after
+order=112 iterations. The seeked state is now the q1=47 one, but
+the iteration continues with the q=45-th state, i.e. two below the
+seeked one. The process continues till the maximal dimension (given
+in the Integrator-Section) is reached. All eigen-energies of the
+first diagonalisation are printed to the rlx_info file.<BR>
+  A similar situation may occur, when the keyword <I>lock</I> is
+  given as argument to <I>relaxation</I>. In this case the Davidson
+  iterates (similar as for <I>follow</I>) on the state of maximal
+  overlap with the previous A-vector (i.e. maximal beta). When this
+  state converges it is checked if it has the maximal overlap with
+  the initial WF. If not, q is adjusted and information similar to
+  above is printed to the rlx_info file.
+  <HR size="4" noshade>
+
+  <P>
+  <!-- ====================================================== --></P>
+
+  <H3><A name="spwnevalfile" id="spwnevalfile"></A>The Spwneval File</H3>
+
+  <P>If the keyword <I>spawn</I> is given in the<I>&nbsp;</I>
+  <A href="input_docu.html#runkey" target=
+  "output_docu">Run-Section</A>, the <TT><FONT size=
+  "+1">spwneval</FONT></TT> file is opened. The <TT><FONT size=
+  "+1">spwneval</FONT></TT> file contains the eigenvalues arranged in
+  decreasing order corresponding to the generation of optimal SPFs.
+  The output is formatted and consists of five columns:</P>
+  <PRE>
+  spf        eval*tau^2              eval[au]       eval(i)/eval(1) thr
+    1    0.000003885350     0.000003678208304     1.000000000000000   T
+    2    0.000003212026     0.000003040781551     0.826701834116186   T
+    3    0.000001834031     0.000001736252144     0.472037470718575   T
+    4    0.000000063548     0.000000060160451     0.016355912029162   T
+    5    0.000000004771     0.000000004516625     0.001227941604539   T
+    6    0.000000000176     0.000000000166813     0.000045351823654   F
+  </PRE>
+
+  <P>The entries are the SPF number, the corresponding eigenvalue times
+  tau square (adimensional), the corresponding eigenvalue in atomic
+  units, the corresponding eigenvalue divided by the largest one and a
+  logical string indicating if the corresponding SPF was added (T) or
+  not (F) during the enlargement of the wavefunction on-the-fly.</P>
+  <HR size="2" noshade>
+
+  <P>
+  <!-- ====================================================== --></P>
+
+  <P>
+  <!-- ====================================================== --></P>
+
+  <H3><A name="nspffile" id="nspffile"></A>The Nspf File</H3>
+
+  <P>If the keyword <I>spawn</I> is given in the<I>&nbsp;</I>
+  <A href="input_docu.html#runkey" target=
+  "output_docu">Run-Section</A>, the <TT><FONT size=
+  "+1">nspf</FONT></TT> file is opened. The <TT><FONT size=
+  "+1">nspf</FONT></TT> file contains the number of SPFs as a function
+  of time.
+  <HR size="2" noshade>
+
+  <P>
+  <!-- ====================================================== --></P>
+
+  <H2><A name="iodefs" id="iodefs"></A>The Standard Definition Data
+  Sets</H2>The following sets of data comprise standard definitons
+  for the calculation. There are three separate sets: for the DVR,
+  the grid (i.e. after any combinations are made), and for the
+  wavefunction.
+
+  <H3><A name="dvrdef" id="dvrdef"></A>The dvrdef information
+  set</H3>
+  <PRE>
+ndof
+(modelabel(f),f=1,ndof)
+(gdim(f),f=1,ndof)
+
+mbaspar
+(basis(f),f=1,ndof)
+(ldvr(f)),f=1,ndof)
+((ipbaspar(i,f),i=1,mbaspar),f=1,ndof)
+((rpbaspar(i,f),i=1,mbaspar),f=1,ndof)
+((xend(i,f),i=1,2),f=1,ndof)
+
+</PRE>
+
+  <H3><A name="grddef" id="grddef"></A>The grddef information
+  set</H3>
+  <PRE>
+dentype                                (since Ver. 81 Rev. 11)
+ndof,nmode
+(nspfdof(m),m=1,nmode)
+do m=1,nmode
+   (spfdof(n,m),n=1,nspfdof(m))
+enddo
+(dofspf(f),f=1,ndof)
+
+lmult,leb,lmulpack
+</PRE>
+
+  <H3><A name="psidef" id="psidef"></A>The psidef information
+  set</H3>
+  <PRE>
+dentype                                (since Ver. 81 Rev. 11)
+nmode,nstate,npacket
+if (dentype.eq.1) then
+   dlstate,drstate
+   do s=1,nstate
+      do t=1,nstate
+         (ddim(m,s,t),m=1,nmode)
+      enddo
+   enddo
+else
+   do s=1,nstate
+      (dim(m,s),m=1,nmode)
+   enddo
+endif
+
+psitype                                (since Ver. 81 Rev. 4)
+
+citype                                 (since Ver. 82 Rev. 0
+if (citype.qt.0) then                   -------- " --------
+   cicut, (ciweight(m),m=1,nmode)       -------- " --------
+endif                                   -------- " -------- )
+
+</PRE>
+</BODY>
+</HTML>
