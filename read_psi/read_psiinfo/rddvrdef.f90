@@ -10,6 +10,9 @@ subroutine rddvrdef(unit)
     integer f, i, j, k, n
     integer , parameter :: maxdim = 50  ! maximum # of dof.
     integer , allocatable :: ildvr(:)
+
+    integer unit
+
     read(unit) ndof  ! read ndof
 
     ! error handling. if ndof is too large, there could be error in reading the file

@@ -17,3 +17,21 @@ subroutine zerovxi(vec,dim)
 
     return
 end
+
+! ----------------------------------------------------------------------
+! Library subroutine cpvxz
+!
+! copies a complex vector to a different complex vector
+!     w(i) = v(i)
+!-----------------------------------------------------------------------
+
+subroutine cpvxz (v,w,dim)
+    integer dim,i
+    complex*16  v(dim),w(dim)
+
+    do i = 1,dim
+        w(i) = v(i)
+    enddo
+
+    return
+end

@@ -10,6 +10,7 @@ subroutine rdpsiinfo(unit)
 
     integer n
     integer nopt, ilpsiopt(1 : npsiopt)
+    integer unit
 
     call rddvrdef(unit)  ! read dvr info.
     ! note dvrdat subroutine in rddvrdef calculate the related pointer.

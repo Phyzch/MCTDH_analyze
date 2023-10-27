@@ -61,6 +61,7 @@ module psidef
     integer,pointer :: zpsi(:),block(:)
     integer,pointer :: dmat(:,:)
     integer,pointer :: zetf(:,:)
+    integer maxblock
 
     !--------------------------------------
     ! Below are the variables I am quite sure what's it's for,  but it's stored in psidef part.

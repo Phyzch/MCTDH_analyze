@@ -9,6 +9,7 @@ subroutine rdpsidef(unit)
 
     integer dentype1
     integer s, m, f, i, j
+    integer unit
 
     read(unit) dentype1
     read(unit) nmode, nstate, npacket, npackts  ! here nstate is # of states. if we do not propagate multiple states, (lmult=false) nstate = 1.
@@ -102,6 +103,12 @@ subroutine psidat
 
         end if
     end do
+
+
+    ! compute maxblock : maximum block across all state s
+    do s=1,nstate
+        maxblock=max(maxblock,block(s))
+    enddo
 
     !-----------------------------
     ! compute zpsi(s): pointer for A coefficient tensor for state s.

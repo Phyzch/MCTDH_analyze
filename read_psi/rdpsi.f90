@@ -13,6 +13,9 @@ subroutine rdpsi(unit, lend)
     logical    lpsisp,lpsicm,lerr,lselect
     integer    m,s, dgl
 
+    integer unit
+    logical lend
+
     lend = .false.
     ! ---------------------------------
     !     variables below indicate how psi is saved.
@@ -67,3 +70,4 @@ subroutine rdpsi(unit, lend)
         stop 4
 
 end subroutine rdpsi
+

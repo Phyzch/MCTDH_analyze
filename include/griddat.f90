@@ -86,7 +86,7 @@ module griddat
 
     ! npacket  : number of wavepackets to be propagated simultaneously (multi-set)
     ! npackts  : number of wavepackets to be propagated simultaneously (single-set)
-    ! nstate: number of separate states in calculation
+    ! nstate: number of electronic states in calculation
     ! maxsubdim : Max[subdim(m)]
 
 

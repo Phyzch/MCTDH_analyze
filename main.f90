@@ -5,6 +5,8 @@ program MCTDH_analyze
 
     psi_filename = psi_folderpath // "psi"
 
+    output_folderpath = "/home/phyzch/Presentation/MCTDH_analyze_output/try/"
 
+    call norm()
 
 end program

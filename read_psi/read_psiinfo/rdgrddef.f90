@@ -9,6 +9,8 @@ subroutine rdgrddef(unit)
     integer dentype1
     integer ilmult1, ileb1, ilmulpack1
 
+    integer unit
+
     ! read dentype1. dentype1 is useless.
     read(unit) dentype1
 

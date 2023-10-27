@@ -9,6 +9,8 @@ subroutine read_psi()
     integer psi_info_end  ! file location pointer to record the end of psi_info from the beginning.
     real time , dt
 
+
+
     complex(kind=selected_real_kind(15, 307)) :: spsi(dgldim)  ! this is equivalent to complex * 8 in fortran 77.
 
     complex(kind=selected_real_kind(33, 4931)) :: psi(dgldim)  ! this is equivalent to the complex * 16 in fortran 77.
@@ -18,6 +20,8 @@ subroutine read_psi()
 
     ! open psi file to read.
     ! See /note/output.html for the info in Psi File.
+    ! form = 'unformatted' means the psi file is the binary file.
+    ! psi_filename is defined in daten. And it is given in the main program
     open(ipsi, file = psi_filename, form = 'unformatted', status = 'old', ACTION = 'READ')
 
     ! read version of the file.
@@ -82,3 +86,16 @@ subroutine read_psi()
 
     close(ipsi)
 end subroutine read_psi
+
+
+
+subroutine deallocate_psi()
+    ! deallocate the variable for wave function psi
+    use psidef
+    use griddat
+    use daten
+
+    deallocate(psi_array)
+    deallocate(time_list)
+
+end subroutine deallocate_psi

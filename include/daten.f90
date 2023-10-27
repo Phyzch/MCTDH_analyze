@@ -7,6 +7,8 @@ module daten
     Character( len = 50 ) :: psi_filename
     Character( len = 50 ) :: psi_folderpath
 
+    Character( len = 100 ) :: output_folderpath
+
     ! for error information handling.
     Character( len = 100 ) :: routine
     Character( len = 100 ) :: message
