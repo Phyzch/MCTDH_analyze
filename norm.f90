@@ -11,10 +11,10 @@ subroutine norm()
     integer ilog      ! file unit for record norm
     integer norm_out_id
 
-    complex ovl, aovl
+    complex *16 ovl, aovl
     real wavefunc_norm, wavefunc_normsq, anormsq, anorm
     real time
-    complex(kind=selected_real_kind(33, 4931)), pointer :: psi_t(:)
+
 
     Character( len = :), allocatable :: norm_log_filename, norm_filename
     Character (len = :), allocatable :: norm_log_filepath, norm_filepath
@@ -48,7 +48,7 @@ subroutine norm()
         ! t_index is index for time
         psi_t = psi_array(:, t_index)
         time = time_list(t_index)
-        call norm_each_t(psi_t, ovl, aovl)
+        call norm_each_t( ovl, aovl)
 
         ! output result
         wavefunc_normsq = dble(ovl)
@@ -67,19 +67,20 @@ subroutine norm()
 end subroutine norm
 
 ! compute the norm of wave function for each time t.
-subroutine norm_each_t(psi_t, ovl, aovl)
+subroutine norm_each_t(ovl, aovl)
     use psidef
     use daten
     use griddat
 
     integer i,j,k,s,m, zeig1, zeig2, swapzeig
-    complex ovr(dmatdim),  zdum
+    complex *16 ovr(dmatdim),  zdum
 
     ! ovl: norm of the wave function.
     ! avol: norm of tensor coefficient A.
-    complex, intent(inout):: ovl, aovl
+    complex *16, intent(inout):: ovl, aovl
 
-    complex , pointer :: workc(:)
+    complex *16 , pointer :: workc(:)
+
 
     workcdim = 2 * maxblock
     allocate(workc(workcdim))

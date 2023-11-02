@@ -78,11 +78,12 @@ module psidef
     !-------------------------------------------------------
     complex*8, pointer :: spsi(:)  ! this is equivalent to complex * 8 in fortran 77.
     complex *16, pointer :: psi(:)  ! this is equivalent to the complex * 16 in fortran 77.
-
+    complex *16, pointer :: psi_t(:)
     !--------------------------------------------------------
     ! 2d array stores wave function at different time step
     ! we will store the wave function psi in there in read_psi_wavefunction.f90
     !-------------------------------------------------------
+    integer, parameter :: psi_number_max = 500  ! maximum number of psi / or maximum length of record.
     integer psi_number  ! number of time steps for wave function arrays recorded
     complex *16, pointer :: psi_array(:,:) ! 2d array of wave function for all time step
     real , pointer :: time_list(:)  ! record time for the wave function.
