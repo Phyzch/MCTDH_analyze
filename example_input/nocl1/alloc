@@ -1,0 +1,28 @@
+
+# ------ Host: "phyzch-System-Product-Name" ----------Fri Sep 15 11:24:48 2023
+
+# /home/phyzch/MCTDH_main/tutorial/nocl/nocl1
+
+maxdim    =       5
+maxsta    =       1
+maxtape   =       0
+maxdepth  =       0
+maxkoe    =     160,    default =    4000
+maxhtm    =     220,    default =    4000
+maxhop    =     220,    default =    4000
+maxfac    =      25,    default =     200
+maxdef    =      85,    default =     240
+maxmuld   =       2,    default =      10
+maxham    =       3,    default =      10
+maxpes    =       2,    default =     100
+maxrdf    =       1,    default =      16
+maxsub    =      63,    default =     100
+maxLMR    =       1,    default =      20
+maxedim   =       1,    default =      50
+maxreadspf=       1,    default =      10
+maxpar    =     150,    default =     300
+maxnhtmshift =    1,    default =      10
+end-alloc
+
+# Run "phelp <parametername>" to see the meaning of the parameter.
+

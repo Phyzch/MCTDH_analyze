@@ -1,0 +1,19 @@
+
+--------------------------------------------------------------------------------
+****** Source code version ******
+
+Program Version :     8
+Release         :     6
+Revision        :     4
+
+Heidelberg SVN repository no.: 1468
+Checkin date: Fri, 07 Apr 2023, 13:07:52
+Compiled: Thu, 15 Jun 2023, 10:37:22 ; Host: phyzch-System-Product-Name
+Program name: rdspf86
+--------------------------------------------------------------------------------
+
+ complex*16 :        734
+ complex*8  :        726
+ real*8     :          1
+ integer    :          3
+ Total   :         17572 Bytes ,      0.02 MB

@@ -1,0 +1,21 @@
+
+--------------------------------------------------------------------------------
+****** Source code version ******
+
+Program Version :     8
+Release         :     6
+Revision        :     4
+
+Heidelberg SVN repository no.: 1468
+Checkin date: Fri, 07 Apr 2023, 13:07:52
+Compiled: Thu, 15 Jun 2023, 10:37:22 ; Host: phyzch-System-Product-Name
+Program name: norm86
+--------------------------------------------------------------------------------
+
+  *** Memory allocated dynamically ***
+ complex*16 :        1534
+ integer    :           4
+ complex*8  :         727
+ Total   :          30432. Bytes ,       0.03 MB
+--------------------------------------------------------------------------------
+

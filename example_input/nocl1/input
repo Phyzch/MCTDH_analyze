@@ -1,0 +1,112 @@
+# /home/phyzch/MCTDH_main/tutorial/nocl/nocl1.inp
+                ### ------- INPUT FILE ------- ###
+
+RUN-SECTION
+name = nocl1
+propagation    # relaxation, continuation, exact are possible keywords
+tinit  =  0.0  # start time of integration, tinit=0 is the default
+tfinal = 25.0  # Integration is stoped at t=tfinal
+tout   =  1.0  # Output is written at tout intervals
+tpsi   =  1.0  # Wavef. is written at tout intervals (default tpsi=tout)
+title  =  NOCl S1  Propagation, (sin,HO,Leg/36,24,60). CAP
+auto           # output autocorrelation function
+steps          # information on integrator steps
+stop           # allows to stop the job in a controled way
+gridpop        # grid population of the single-particle functions
+psi            # wavefunction will be written
+end-run-section
+OPERATOR-SECTION
+opname = nocl1
+alter-labels
+CAP_rd = CAP [ 5.0 0.3 3 ]   # starting point, strength, order
+end-alter-labels
+end-operator-section
+SPF-BASIS-SECTION
+rd    = 5     # define the number of single-particle functions for each
+rv    = 5     # mode; the mode lables (here: rd, rv, theta) must
+theta = 5     # coincide with those given in the operator file
+end-spf-basis-section
+PRIMITIVE-BASIS-SECTION
+   rd     sin  36  3.800   5.600                  # N, xi, xf
+   rv     HO   24  2.136   0.272,eV  7.4667,AMU   # N, x-eq, freq., mass
+   theta  Leg  60  0       all                    # N, l_z, sym
+end-primitive-basis-section
+INTEGRATOR-SECTION
+CMF/var = 0.5, 1.0d-5            # initial step size (fs), CMF-accuracy
+BS/spf  =  8 , 1.0d-6            # order, accuracy, [initial step size]
+SIL/A   = 15 , 1.0d-6, standard  # order, accuracy, error-estimate
+end-integrator-section
+INIT_WF-SECTION
+file = nocl0   # read initial wavefunction from relaxation calculation from the restart file in nocl0
+end-init_wf-section
+ALLOC-SECTION
+   maxkoe=160
+   maxhtm=220
+   maxhop=220
+   maxfac=25
+   maxdef=85
+   maxpar=150
+   maxrdf=1
+   maxpes=2
+   maxham=3
+   maxmuld=1
+   maxLMR=1
+   maxsub=60
+   maxedim=1
+   maxreadspf=1
+   maxnhtmshift=1
+end-alloc-section
+end-input
+
+ -mnd 
+
+#******************************************************************************#
+                ### ------ OPERATOR FILE ------ ###
+
+OP_DEFINE-SECTION
+title
+NOCl S1 surface
+end-title
+end-op_define-section
+PARAMETER-SECTION
+mass_rd = 16.1538, AMU
+mass_rv =  7.4667, AMU
+end-parameter-section
+HAMILTONIAN-SECTION
+------------------------------------------
+modes         |  rd    |  rv    | theta
+------------------------------------------
+0.5/mass_rd   |  q^-2  |  1     |  j^2
+0.5/mass_rv   |  1     | q^-2   |  j^2
+-0.5/mass_rd  |  dq^2  |  1     |   1
+-0.5/mass_rv  |  1     |  dq^2  |   1
+1.0           |1&2&3  V
+------------------------------------------
+end-hamiltonian-section
+HAMILTONIAN-SECTION_oper1
+------------------------------------------
+modes         |  rd    |  rv    | theta
+------------------------------------------
+1.0           |  1     |  1     |  sin^2
+1.0           |  1     |  1     |  cos^2
+-1.0          |  1     |  1     |  tan^2
+1.0           |  1     |  1     |  cos^-2
+------------------------------------------
+end-hamiltonian-section
+HAMILTONIAN-SECTION_oper2
+------------------------------------------
+modes         |  rd    |  rv    | theta
+------------------------------------------
+1.0/mass_rv   |  1     |  dq^2  |  1
+1.0/mass_rd   |  dq^2  |  1     |  1
+0.1/mass_rv   |  q     |  p     |  sin
+0.1/mass_rd   |  dq^2  |  q     |  cos
+0.1/mass_rv   |  q     |  q     |  j^2
+------------------------------------------
+end-hamiltonian-section
+LABELS-SECTION
+V = srffile {nocl1um, default}
+end-labels-section
+end-operator
+
+#******************************************************************************#

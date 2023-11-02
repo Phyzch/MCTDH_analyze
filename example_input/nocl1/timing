@@ -1,0 +1,21 @@
+ Subroutine           Calls N         cpu/N             cpu       %cpu      real/N          real  cpu/real
+
+ BS                       324         0.000           0.1200      63.2
+ Funk-rv                 5601         0.000           0.0500      26.3
+ Funk-theta              1575         0.000           0.0400      21.1
+ Funk-rd                 1344         0.000           0.0200      10.5
+ MFields                   53         0.000           0.0200      10.5
+ Funka                    285         0.000           0.0200      10.5
+ Funk0                     26         0.000           0.0100       5.3
+ Funk1                     52         0.000           0.0100       5.3
+ Funk3                     27         0.000           0.0100       5.3
+ Startup                    1         0.010           0.0100       5.3
+ genOPER                    1         0.010           0.0100       5.3
+ SIL                       78         0.000           0.0100       5.3
+
+Total (usr,sys,cpu)       0.18     0.01       0.19   (  0h :  0m :  0.19s)
+
+ ---------------------------------------------------------------------------
+ ------ Host: "phyzch-System-Product-Name" ----------Fri Sep 15 11:24:48
+ /home/phyzch/MCTDH_main/tutorial/nocl/nocl1
+   NOCl S1  Propagation, (sin,HO,Leg/36,24,60). CAP                            

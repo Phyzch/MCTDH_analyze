@@ -1,0 +1,373 @@
+
+------ Host: "phyzch-System-Product-Name" ----------Fri Sep 15 11:24:48 2023
+
+ /home/phyzch/MCTDH_main/tutorial/nocl/nocl1
+
+ PID =    20410
+
+--------------------------------------------------------------------------------
+****** Source code version ******
+
+Program Version :     8
+Release         :     6
+Revision        :     4
+
+Heidelberg SVN repository no.: 1468
+Checkin date: Fri, 07 Apr 2023, 13:07:52
+Compiled: Thu, 15 Jun 2023, 10:37:22 ; Host: phyzch-System-Product-Name
+Program name: mctdh86
+
+Included surfaces: lsth
+
+Default operator-path: /home/phyzch/MCTDH_main/MCTDH/mctdh86.4/operators
+--------------------------------------------------------------------------------
+
+###############                 NEW RUN                  ###############
+
+   NOCl S1  Propagation, (sin,HO,Leg/36,24,60). CAP
+
+########################################################################
+
+******* OPTIONS ******
+-mnd
+
+
+########################################################################
+
+ Reading Input Files
+
+########################################################################
+
+Task: gendvr genoper geninwf propagation
+
+Operator labels taken from input file
+
+Opening operator file :/home/phyzch/MCTDH_main/tutorial/nocl/nocl1.op
+
+***** Hamiltonian and title *****
+
+NOCl S1 surface
+
+Parameter values taken from .op file
+
+Operator labels taken from .op file 
+
+Parameter values taken from .op file
+
+Operator labels taken from .op file 
+
+Assigning Operators From Library
+
+
+***** Paths and input files *****
+
+~.inp  file copied to input in name directory
+name      : /home/phyzch/MCTDH_main/tutorial/nocl/nocl1
+input     : /home/phyzch/MCTDH_main/tutorial/nocl/nocl1.inp
+DVR file  : /home/phyzch/MCTDH_main/tutorial/nocl/nocl1
+.op file  : /home/phyzch/MCTDH_main/tutorial/nocl/nocl1.op
+INWF file : /home/phyzch/MCTDH_main/tutorial/nocl/nocl0
+cross-ref : /home/phyzch/MCTDH_main/tutorial/nocl/nocl1/restart
+
+overwrite disabled
+
+
+WARNING in subroutine Chkprop:
+Symmetric Hamiltonian and real initial state assumed when calculating
+autocorrelation function. Use "cross" if these conditions are not fulfilled.
+------------------------------------
+
+Timing file opened
+
+########################################################################
+
+ Creating DVR file: /home/phyzch/MCTDH_main/tutorial/nocl/nocl1/dvr
+                                                         Sep 15 11:24:48
+########################################################################
+
+***** Memory used in DVR basis generation *****
+
+Memory size (used / allocated) (in Mb):      1.014 /      1.161
+
+** Array dimensions **
+
+length of complex      array (used):           6          0.000 MB
+length of real         array (used):       20141          0.154 MB
+length of integer      array (used):           5          0.000 MB
+length of logical      array (used):           2          0.000 MB
+
+total array memory in mb     (used):         0.2
+
+
+
+****** Primitive Basis *********
+
+ mode     kappa    DVR    N        xi         xf         dx       p-max
+
+ rd           1    sin   36      3.800      5.600   0.051429     59.436
+ rv           2    HO    24      1.620      2.652   0.044849     70.171 136.0527
+ theta        3    Leg   60      3.102      0.040   0.051900  m= 0, sym= 0
+
+
+********* SPF Basis ************
+
+ mode        N    n      dof's
+
+    1       36    5       1
+    2       24    5       2
+    3       60    5       3
+
+ Total grid size       :    51840     5.184E+04
+ Length of A-vector    :      125     1.250E+02
+ Length of Phi-vectors :      600     6.000E+02
+ Length of WF-vector   :      725     7.250E+02
+
+
+########################################################################
+
+ Creating OPER file: /home/phyzch/MCTDH_main/tutorial/nocl/nocl1/oper
+                                                         Sep 15 11:24:48
+########################################################################
+
+***** Memory used in OPERATOR generation *****
+
+Memory size (used / allocated) (in Mb):      1.606 /      1.753
+
+** Array dimensions **
+
+length of complex      array (used):       14641          0.223 MB
+length of real         array (used):       68499          0.523 MB
+length of integer      array (used):           4          0.000 MB
+length of logical      array (used):           2          0.000 MB
+
+total array memory in mb     (used):         0.7
+
+ *** RUNOPER include-array dimensions ***
+k   :  minkoe, maxkoe     158     160
+h   :  htmdim, maxhtm     189     220
+hl  :  hopdim, maxhop     188     220
+nh  :  minfac, maxfac       4      25
+np  : npesopt, maxpes       1       2
+muld: mulddim,maxmuld       1       2
+n   :    ndef, maxdef       6      85
+n   :    npar, maxpar     144     150
+n   :    nrdf, maxrdf       0       1
+minnhtmshift,maxnhtmshift       0       1
+** Preliminary! See op.log file for final values.
+
+***** Operator details *****
+
+DOF no.    label
+    1       rd
+    2       rv
+    3       theta
+
+Mode     DOFs
+   1    1=      rd
+   2    2=      rv
+   3    3=   theta
+
+ feb =  0,  meb =  0,   fpb =  0,  mpb =  0,  mkoe =  4
+ leb = F,  lmult = F,  lmulpack = F,  lcap = T
+
+Number of Hamiltonians defined:     3
+    1     system                usediag
+    2     oper1                  nodiag
+    3     oper2                  nodiag
+
+########################################################################
+
+Creating RESTART file
+                                                         Sep 15 11:24:48
+########################################################################
+
+**** RSTINFO: Reading RESTART file ****
+Type : wavefunction, file-version =  8.60040
+Created on:
+------ Host: "phyzch-System-Product-Name" ----------Thu Aug 31 08:35:46 2023
+
+
+***** Length of psi vector *****
+
+Overall length of A-vector      :      125    1.250E+02
+Length of phi vector for mode   1:      180
+Length of phi vector for mode   2:      120
+Length of phi vector for mode   3:      300
+                                  --------
+Length of wavefunction vector   :      725    7.250E+02
+
+workcdim   :       997   9.970E+02
+workrdim   :        60   6.000E+01
+workidim   :         1
+
+***** Memory used in WAVEFUNCTION generation *****
+
+Memory size (used / allocated) (in Mb):      1.038 /      1.171
+
+** Array dimensions **
+
+length of psi/dtpsi    array (used):         725          0.011 MB
+length of complex      array (used):        2133          0.033 MB
+length of real         array (used):       14306          0.109 MB
+length of integer      array (used):           6          0.000 MB
+length of logical      array (used):           3          0.000 MB
+
+total array memory in mb     (used):         0.2
+
+**** Reading OPER file ****
+NOCl S1 surface
+Created on:
+------ Host: "phyzch-System-Product-Name" ----------Fri Sep 15 11:24:48 2023
+
+
+***** Restart calculation (file=) *****
+
+Restart file read from :  /home/phyzch/MCTDH_main/tutorial/nocl/nocl0/restart
+The initial wavefunction is Schmidt-orthogonalized.
+
+**** RSTINFO: Reading RESTART file ****
+Type : wavefunction, file-version =  8.60040
+Created on:
+------ Host: "phyzch-System-Product-Name" ----------Thu Aug 31 08:35:46 2023
+
+Old norm (before adapting SPFs):    1.000000000,    squared:   1.000000000
+new norm (before normalisation):    1.000000000,    squared:   1.000000000
+
+*** PARAMETER ***
+ veigen : minedim,    maxedim       0       1
+ timing : nsub,       maxsub       39      63
+ eingabe: nreadspf,maxreadspf       0       1
+
+########################################################################
+
+ Propagating Wavefunction
+                                                         Sep 15 11:24:48
+########################################################################
+ hopsdim  =       8560        0.065 MB
+ dgldim   =        725        0.011 MB
+ pmatdim  =        825        0.013 MB
+ hpsidim  =        300        0.005 MB
+ hlochdim =       1475        0.023 MB
+ mfsumdim =       3000        0.046 MB
+ intpsidim=       3000        0.046 MB
+ workcdim =       1200        0.018 MB
+ workrdim =        120        0.001 MB
+
+***** Memory used in wavefunction PROPAGATION *****
+
+Memory size (used / allocated) (in Mb):      1.197 /      1.331
+
+** Array dimensions **
+
+length of psi/dtpsi    array (used):         725          0.011 MB
+length of complex      array (used):       12409          0.189 MB
+length of real         array (used):       14625          0.112 MB
+length of integer      array (used):           6          0.000 MB
+length of logical      array (used):           3          0.000 MB
+
+total array memory in mb     (used):         0.3
+
+**** Global array sizes ****
+
+Minimum value for maxdim:       3  Present value:       5
+Minimum value for maxsta:       1  Present value:       1
+Minimum value for maxsub:      39  Present value:      63
+Minimum value for maxkoe:      22  Present value:     160
+
+**** Reading OPER file ****
+NOCl S1 surface
+Created on:
+------ Host: "phyzch-System-Product-Name" ----------Fri Sep 15 11:24:48 2023
+
+
+**** RSTINFO: Reading RESTART file ****
+  NOCl S1  Propagation, (sin,HO,Leg/36,24,60). CAP
+Type : wavefunction, file-version =  8.60040
+Created on:
+------ Host: "phyzch-System-Product-Name" ----------Fri Sep 15 11:24:48 2023
+
+
+***** Calculation type *****
+
+Wavefunction propagation.
+Using Schroedinger picture.
+
+***** Integrator algorithm *****
+
+Mean-fields etc. are kept constant.
+CMF stepsize is adaptive (error control for A and phi).
+CMF accuracy: 1.00E-05,      Initial stepsize:  0.500 fs
+For SPFs, For spfs, BS integrator
+order:  8,  accuracy: 1.00E-06,  initial step: 2.50E-01 fs
+For A-coefficients, SIL integrator
+order:  15,  accuracy: 1.00E-06,  initial step:  0.250 fs
+error criterion: standard
+Arnoldi-SIL (complex, CSIL) used.
+The working equation for the spfs reads:
+i dphi/dt = (1-P)(h + ...) phi
+Using standard orbitals.
+Using operator symmetries
+
+***** Numerical parameters *****
+
+Machine precision:                                    2.220E-16
+Parameter used to regularise inverse density matrix:  1.000E-08
+Parameter used to regularise SVD singular values   :  0.000E+00
+Parameter used to regularise natural orbital matrix:  1.000E-08
+
+******** Flags  ********
+
+
+***** Output files *****
+
+Stop        file created
+Output      file opened
+Psi         file opened  (single)
+Check       file opened
+Gridpop     file opened
+Speed       file opened
+Auto        file opened  (once)
+Steps       file opened
+Update      file opened
+ time[fs]       25.000
+
+***** Integration method *****
+
+Integration method used for the MCTDH-coefficients:
+Short iterative Lanczos-Arnoldi with variable order.
+Maximum order employed:   7
+Maximum order allowed:   15
+
+Integration method used for the single-particle functions:
+Bulirsch-Stoer (BS) with polynomial extrapolation.
+Optimal column:  8
+
+Number of succesful large BS steps:              322
+Number of failed but fixed large BS steps:         2
+Total number of small BS steps:                 8430
+
+Number of successful Lanczos steps:              78
+Number of failed but fixed Lanczos steps:         0
+
+***** Update times *****
+
+Number of successful update steps:    26
+Number of failed update steps:         0
+Mean update time (in fs):        0.96154
+Standard deviation (in fs):      0.13323
+
+***** God's final message *****
+
+Program terminated normally.
+
+***** Overall Timing *****
+
+Total cpu time     [s] :          0.18
+Total system time  [s] :          0.01
+Wall time          [s] :          0.20
+total time/wall time   :          0.96
+Total time     [h:m:s] :    0 :  0 :  0.19
+Wall  time     [h:m:s] :    0 :  0 :  0.20
+
+------ Host: "phyzch-System-Product-Name" ----------Fri Sep 15 11:24:48 2023
+

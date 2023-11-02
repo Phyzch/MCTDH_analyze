@@ -1,0 +1,29 @@
+--------------------------------------------------------------------------------
+
+------ Host: "phyzch-System-Product-Name" ----------Fri Sep 22 16:17:31 2023
+
+ The log file is : /home/phyzch/MCTDH_main/tutorial/nocl/nocl1/showsys.log
+ The DVR file is : /home/phyzch/MCTDH_main/tutorial/nocl/nocl1/dvr
+ The psi file is : /home/phyzch/MCTDH_main/tutorial/nocl/nocl1/psi
+
+--------------------------------------------------------------------------------
+****** Source code version ******
+
+Program Version :     8
+Release         :     6
+Revision        :     4
+
+Heidelberg SVN repository no.: 1468
+Checkin date: Fri, 07 Apr 2023, 13:07:52
+Compiled: Thu, 15 Jun 2023, 10:37:22 ; Host: phyzch-System-Product-Name
+Program name: showsys86
+--------------------------------------------------------------------------------
+
+  *** Memory allocated dynamically ***
+ complex*16 :        1469
+ real*8     :     1843202
+ integer    :           4
+ complex*8  :         727
+ Total   :       14775072. Bytes ,      14.09 MB
+--------------------------------------------------------------------------------
+

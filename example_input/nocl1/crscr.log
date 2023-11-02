@@ -1,0 +1,38 @@
+
+**** RSTINFO: Reading RESTART file ****
+Type : wavefunction, file-version =  8.60040
+Created on:
+------ Host: "phyzch-System-Product-Name" ----------Thu Aug 31 08:35:46 2023
+
+ovtype =  0 ,  ebtype =  0
+
+**** RSTINFO: Reading RESTART file ****
+Type : wavefunction, file-version =  8.60040
+Created on:
+------ Host: "phyzch-System-Product-Name" ----------Thu Aug 31 08:35:46 2023
+
+
+--------------------------------------------------------------------------------
+****** Source code version ******
+
+Program Version :     8
+Release         :     6
+Revision        :     4
+
+Heidelberg SVN repository no.: 1468
+Checkin date: Fri, 07 Apr 2023, 13:07:52
+Compiled: Thu, 15 Jun 2023, 10:37:22 ; Host: phyzch-System-Product-Name
+Program name: crosscorr86
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+
+  *** Memory allocated dynamically ***
+ complex*16 :        2074
+ real*8     :          20
+ integer    :           4
+ logical    :           2
+ complex*8  :         727
+ Total   :          39184. Bytes ,       0.04 MiB
+--------------------------------------------------------------------------------
+

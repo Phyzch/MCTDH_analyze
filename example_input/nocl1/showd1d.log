@@ -1,0 +1,25 @@
+
+--------------------------------------------------------------------------------
+****** Source code version ******
+
+Program Version :     8
+Release         :     6
+Revision        :     4
+
+Heidelberg SVN repository no.: 1468
+Checkin date: Fri, 07 Apr 2023, 13:07:52
+Compiled: Thu, 15 Jun 2023, 10:37:22 ; Host: phyzch-System-Product-Name
+Program name: showd1d86
+--------------------------------------------------------------------------------
+
+  *** Memory allocated dynamically ***
+ real*8     :        5894
+ real*4     :         122
+ Total   :    47640 Bytes ,       0.05 MB
+--------------------------------------------------------------------------------
+
+gridpop : /home/phyzch/MCTDH_main/tutorial/nocl/nocl1/gridpop
+dvr     : /home/phyzch/MCTDH_main/tutorial/nocl/nocl1/dvr
+output  : /home/phyzch/MCTDH_main/tutorial/nocl/nocl1/den1d_f1
+--------------------------------------------------------------------------------
+
