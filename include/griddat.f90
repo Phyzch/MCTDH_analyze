@@ -1,6 +1,14 @@
 ! Created by phyzch on 10/23/23.
 ! contain definitions of variables relevant to primitive basis (grid).
 module griddat
+
+    !------------------------------
+    ! length of the string.
+    integer , parameter :: c1 = 16 !PRCS:16
+    integer , parameter :: c2 = 32 !PRCS:32
+    integer , parameter :: c3 = 64 !PRCS:64
+    integer , parameter ::c4 = 80 !PRCS:80
+    integer , parameter ::c5 = 240 !PRCS:240
     !-----------------------------------------------------------------------
     ! VARIOUS INTEGERS DEFINING SYSTEM
     !
@@ -12,7 +20,7 @@ module griddat
     ! maxgdim2 : Max[gdim(f)**2]
     !-----------------------------------------------------------------------
     integer ndof, feb, fpb, maxgdim, maxgdim2
-    integer, pointer :: gdim(:,:)
+    integer, pointer :: gdim(:)
 
     !-----------------------------------------------------------------------
     ! HOW ELECTRONIC BASIS IS HANDLED
@@ -47,7 +55,7 @@ module griddat
     !
     !  mbaspar:    maximum number of parameters used to define bases
     !-----------------------------------------------------------------------
-    integer, parameter :: mbaspar = 9
+    integer :: mbaspar
 
     !-----------------------------------------------------------------------
     ! PARAMETERS DEFINING PRIMITIVE BASIS
@@ -57,7 +65,7 @@ module griddat
     ! ipbaspar(n,f): integer parameters needed to define primitive basis
     !-----------------------------------------------------------------------
     integer,pointer :: ipbaspar(:,:)
-    real ,pointer :: rpbaspar(:,:)
+    real*8 ,pointer :: rpbaspar(:,:)
     real, pointer :: xend(:,:)
 
     ! basis(f) : basis type for dof f. (dof=degree of freedom)
@@ -69,7 +77,7 @@ module griddat
     integer,pointer :: basis(:)
 
     logical,pointer :: ldvr(:)
-    character*(c1), pointer :: modelabel(:)
+    character * (c1), pointer :: modelabel(:)
 
     !---------------------------------------------------------------------
     ! Parameters defining "combined" grids

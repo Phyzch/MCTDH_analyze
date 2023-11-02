@@ -28,6 +28,8 @@ subroutine rddvrdef(unit)
     allocate (modelabel(ndof))
     allocate (gdim(ndof))
 
+    allocate(vgdim(ndof) , ngdim(ndof))
+
     ! read modelabel and gdim
     read(unit) (modelabel(f), f = 1, ndof)
     read(unit) (gdim(f), f = 1, ndof)
@@ -46,7 +48,7 @@ subroutine rddvrdef(unit)
     read(unit) (ildvr(f), f= 1, ndof)
 
     do f = 1, ndof
-        ldvr(f) = int2log(ildvr(f))
+        ldvr(f) = (ildvr(f) /= 0)
     end do
 
     ! read ipbaspar : integer parameters needed to define primitive basis
@@ -55,10 +57,10 @@ subroutine rddvrdef(unit)
     read(unit)((rpbaspar(i,f), i=1,mbaspar), f=1,ndof)
 
     ! read xend. Don't know what this variable is for. pretty useless
-    read(unit)((xend(i,f), i=1,mbaspar), f=1,ndof)
+    read(unit)((xend(i,f), i=1,2), f=1,ndof)
 
     !
-    call dvrdat
+    call dvrdat_pointer
 
 
 
@@ -67,7 +69,7 @@ end subroutine rddvrdef
 
 
 
-subroutine dvrdat
+subroutine dvrdat_pointer
     ! find grid dof (basis) that represents electronic dof.
     ! find grid dof which is represented by dvr (ldvr)
     ! find maximum size of grid point maxgdim
@@ -106,4 +108,4 @@ subroutine dvrdat
     end do
     maxgdim2 = maxgdim ** 2
 
-end subroutine dvrdat
+end subroutine dvrdat_pointer

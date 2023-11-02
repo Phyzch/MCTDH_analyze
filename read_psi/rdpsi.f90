@@ -8,8 +8,7 @@ subroutine rdpsi(unit, lend)
     use psidef
     use griddat
 
-    complex(kind=selected_real_kind(15, 307)) :: spsi(dgldim)  ! this is equivalent to complex * 8 in fortran 77.
-    complex(kind=selected_real_kind(33, 4931)) :: psi(dgldim)  ! this is equivalent to the complex * 16 in fortran 77.
+
     logical    lpsisp,lpsicm,lerr,lselect
     integer    m,s, dgl
 
@@ -46,7 +45,7 @@ subroutine rdpsi(unit, lend)
 
     ! read wave function
     ! see psiouot.F line 135 in MCTDH source code
-    if(lpsisp) then    ! lpsisp: single precision for psi
+    if(lpsisp) then    ! lpsisp: single precision for psi. It is the default if no psi=double is given.
         read(unit, end = 10, err = 30) (spsi(dgl), dgl = 1, dgldim)
 
         do dgl = 1, dgldim
@@ -67,7 +66,7 @@ subroutine rdpsi(unit, lend)
     30  write(*,*) "ERROR in rdpsi (rdpsi.f90)"
         write(*,*) "when reading element index : dgl = ", dgl, ",  dgldim = ", dgldim
         write(*,*) "lpsisp : " , lpsisp
-        stop 4
+        stop 5
 
 end subroutine rdpsi
 

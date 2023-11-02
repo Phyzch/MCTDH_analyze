@@ -73,12 +73,18 @@ module psidef
     integer, pointer :: msymmtr(:), idmode(:), symcv(:)
     integer citype
 
+    !------------------------------------------------------
+    ! wave function at given time t.
+    !-------------------------------------------------------
+    complex*8, pointer :: spsi(:)  ! this is equivalent to complex * 8 in fortran 77.
+    complex *16, pointer :: psi(:)  ! this is equivalent to the complex * 16 in fortran 77.
+
     !--------------------------------------------------------
     ! 2d array stores wave function at different time step
     ! we will store the wave function psi in there in read_psi_wavefunction.f90
     !-------------------------------------------------------
     integer psi_number  ! number of time steps for wave function arrays recorded
-    complex(kind=selected_real_kind(33, 4931)), pointer :: psi_array(:,:) ! 2d array of wave function for all time step
+    complex *16, pointer :: psi_array(:,:) ! 2d array of wave function for all time step
     real , pointer :: time_list(:)  ! record time for the wave function.
 
 end module psidef

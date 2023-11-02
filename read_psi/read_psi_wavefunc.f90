@@ -6,17 +6,11 @@ subroutine read_psi()
 
     logical lend
     integer i,j, k,  psi_index
-    integer psi_info_end  ! file location pointer to record the end of psi_info from the beginning.
+    integer(8) psi_info_end ! file location pointer to record the end of psi_info from the beginning.
+    integer(8) psi_end
+    integer(8) psi_file_pos_back
     real time , dt
 
-
-
-    complex(kind=selected_real_kind(15, 307)) :: spsi(dgldim)  ! this is equivalent to complex * 8 in fortran 77.
-
-    complex(kind=selected_real_kind(33, 4931)) :: psi(dgldim)  ! this is equivalent to the complex * 16 in fortran 77.
-
-    ! output time for wave function in fs.
-    dt = out2 / fs
 
     ! open psi file to read.
     ! See /note/output.html for the info in Psi File.
@@ -30,8 +24,14 @@ subroutine read_psi()
     ! read information for psi wave function.
     call rdpsiinfo(ipsi)
 
+    ! allocate space. dgldim: total length of wave function psi.
+    allocate(spsi(dgldim), psi(dgldim))
+
+    ! output time for wave function in fs.
+    dt = out2 / fs
+
     !----------------- calculate the # of time steps by reading to the end of the psi file  START -------------------------
-    psi_info_end = ftell(ipsi)
+    inquire(unit = ipsi, pos = psi_info_end)
 
     ! for psi_number
     psi_index = 0
@@ -42,11 +42,12 @@ subroutine read_psi()
     do
         call rdpsi(ipsi, lend)  ! read psi function. The result is stored in psi file.
 
-        ! compute psi_number
-        psi_index = psi_index + 1
-        if (lend == .true. )
+        if (lend .eqv. .true. ) then
             exit
         end if
+        ! compute psi_number
+        psi_index = psi_index + 1
+
     end do
     psi_number = psi_index
     !----------------- calculate the # of time steps by reading to the end of the psi file  END --------------------------
@@ -56,7 +57,12 @@ subroutine read_psi()
     allocate(time_list(psi_number))
 
     ! revert to the location at the end of psi info section.
-    call fseek(ipsi, psi_info_end, 0)
+    inquire(unit = ipsi, pos = psi_end)
+    ! backspace
+    psi_file_pos_back = psi_end - psi_info_end
+    do i=1, psi_file_pos_back
+        backspace(ipsi)
+    end do
 
     !---------------------- read the wave function psi and store it in the psi_array START -------------
     lend = .false.  ! when lend = true, this means we reach the end of the psi file.
@@ -77,7 +83,7 @@ subroutine read_psi()
         time = time + dt
 
         psi_index = psi_index + 1
-        if (lend == .true.)
+        if (lend .eqv. .true.) then
             exit
         end if
 

@@ -32,11 +32,12 @@ subroutine rdpsiinfo(unit)
     if (nopt .lt. 0 .or.  nopt .gt. npsiopt) goto 981
 
     do n = 1, nopt
-        lpsiopt(n) = int2log(ilpsiopt(n))
+        lpsiopt(n) = (ilpsiopt(n) /= 0) !convert ilpsiopt to lpsiopt (logical variable)
     end do
 
     ! read initial time : tinit, frequency of wave function output: out2
     read(unit, err = 981) tinit, out2
+
 
     return
     ! ------ error message handling -------------

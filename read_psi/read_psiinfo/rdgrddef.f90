@@ -5,6 +5,7 @@
 subroutine rdgrddef(unit)
     use daten
     use griddat
+
     integer f, i, j, k, m
     integer dentype1
     integer ilmult1, ileb1, ilmulpack1
@@ -20,6 +21,8 @@ subroutine rdgrddef(unit)
     allocate(dofspf(ndof))
     allocate(spfdof(ndof, nmode))
 
+    allocate(subdim(nmode)) ! the size of the basis set.
+
     read(unit) nstate, npacket, npackts, feb, meb, fpb, mpb
     read(unit) (nspfdof(m), m=1,nmode)  ! # of dof for each mode.
     do m=1,nmode
@@ -30,11 +33,11 @@ subroutine rdgrddef(unit)
 
     !read lmult, leb, lmulpack
     read(unit) ilmult1, ileb1, ilmulpack1
-    lmult = int2log(ilmult1)
-    leb = int2log(ileb1)
-    lmulpack = int2log(ilmulpack1)
+    lmult = (ilmult1 /= 0)
+    leb = (ileb1 /= 0)
+    lmulpack = ( ilmulpack1 /= 0 )
 
-    call griddat
+    call griddat_pointer
 
 end subroutine rdgrddef
 
@@ -43,7 +46,7 @@ end subroutine rdgrddef
 ! calculate the subdim(m) : grid size for mode m.
 ! calculate vgdim(f), ngdim(f): for the grid dof f in the mode m.
 ! calculate maximum grid dimension : maxsubdim
-subroutine griddat
+subroutine griddat_pointer
     use griddat
     use daten
 
@@ -57,6 +60,7 @@ subroutine griddat
     ! vgdim(f): product of grid point # with index before given dof f in the same mode m.
     ! ngdim(f): product of grid point # with index after given dof f in the same mode m.
     !------------------------------------------------------------------
+
     do m = 1, nmode
         zeig = 1
         ! calculate vgdim(f). go through all grid dof (f) within mode m.
@@ -85,7 +89,7 @@ subroutine griddat
         ! no idea what's funny about basis(f) .eq. 12 (Leg/r), looks like we have to take care of it.
         do n = 1, nspfdof(m)
             f = spfdof(n,m)
-            if(basis(f) .eq. 12)
+            if(basis(f) .eq. 12) then
                 maxsubdim = max( maxsubdim, ipbaspar(3,f) * subdim(m) / gdim(f) )
             end if
         end do
@@ -106,4 +110,4 @@ subroutine griddat
         nstate = gdim(feb)
     end if
 
-end subroutine griddat
+end subroutine griddat_pointer

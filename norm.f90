@@ -8,23 +8,34 @@ subroutine norm()
 
     integer i,j,k,s,m
     integer t_index
-    integer ilog       ! file unit for record norm
+    integer ilog      ! file unit for record norm
     integer norm_out_id
 
     complex ovl, aovl
-    real norm, normsq, anormsq, anorm
+    real wavefunc_norm, wavefunc_normsq, anormsq, anorm
     real time
-    complex(kind=selected_real_kind(33, 4931)), pointer :: psi_t
+    complex(kind=selected_real_kind(33, 4931)), pointer :: psi_t(:)
 
-    Character( len = 100 ) norm_log_filename, norm_filename
+    Character( len = :), allocatable :: norm_log_filename, norm_filename
+    Character (len = :), allocatable :: norm_log_filepath, norm_filepath
 
-    norm_log_filename = output_folderpath // "norm.log"
-    norm_filename = output_folderpath // "norm"
+    ! file unit for record norm
+    ilog = 1
+    ! file unit for output norm
+    norm_out_id = 2
+    ! unit # for ipsi.
+    ipsi = 3
 
-    open(unit = ilog, file = norm_log_filename, form = "formatted")  ! formatted means the file will be treated as a text file
+    norm_log_filename = "norm.log"
+    norm_filename = "norm"
+
+    norm_log_filepath = output_folderpath // norm_log_filename
+    norm_filepath = output_folderpath// norm_filename
+
+    open(unit = ilog, file = norm_log_filepath, action = "WRITE" ,form = "formatted")  ! formatted means the file will be treated as a text file
     ! with human readable content.
 
-    open(unit = norm_out_id, file = norm_filename, form = "formatted")
+    open(unit = norm_out_id, file = norm_filepath, action = "WRITE", form = "formatted")
 
 
     ! read the wave function.
@@ -40,21 +51,23 @@ subroutine norm()
         call norm_each_t(psi_t, ovl, aovl)
 
         ! output result
-        normsq = dble(ovl)
-        norm = sqrt(normsq)
+        wavefunc_normsq = dble(ovl)
+        wavefunc_norm = sqrt(wavefunc_normsq)
         anormsq = dble(aovl)
         anorm = sqrt(anormsq)
 
         write(norm_out_id, '(f12.4,1x,2f13.9,2x,2f13.9)') &
-                time, normsq, anormsq, norm, anorm
+                time, wavefunc_normsq, anormsq, wavefunc_norm, anorm
     end do
 
     close(ilog)
     close(norm_out_id)
+    deallocate(psi_t)
+
 end subroutine norm
 
 ! compute the norm of wave function for each time t.
-subroutine norm_each_t(psi, ovl, aovl)
+subroutine norm_each_t(psi_t, ovl, aovl)
     use psidef
     use daten
     use griddat
@@ -78,7 +91,7 @@ subroutine norm_each_t(psi, ovl, aovl)
     !-----------------------------------------------------------------------
     do s = 1, nstate
         do m = 1, nmode
-            call mmaxzz(psi(zetf(m,s)) , psi(zetf(m,s)), ovr(dmat(m,s)) , &
+            call mmaxzz(psi_t(zetf(m,s)) , psi_t(zetf(m,s)), ovr(dmat(m,s)) , &
                     subdim(m), dim(m,s), dim(m,s))
             ! see rdpsidef.f90 for dmat(m,s). This is the index for density matrix.
         end do
@@ -91,7 +104,7 @@ subroutine norm_each_t(psi, ovl, aovl)
     do s=1,nstate
         zeig1=1
         zeig2=block(s)+1
-        call cpvxz(psi(zpsi(s)),workc(zeig2),block(s))
+        call cpvxz(psi_t(zpsi(s)),workc(zeig2),block(s))
         do m=1,nmode
             swapzeig=zeig1
             zeig1=zeig2
@@ -113,7 +126,7 @@ subroutine norm_each_t(psi, ovl, aovl)
         ! workc(zeig2) = sum_L <phi_J|phi_L> A_L
         ! This is just scalar product of two vectors. result is stored in zdum.
         !-----------------------------------------------------------------------
-        call vvaxzz(psi(zpsi(s)),workc(zeig2),zdum,block(s))
+        call vvaxzz(psi_t(zpsi(s)),workc(zeig2),zdum,block(s))
         ovl=ovl+zdum
     enddo
 
@@ -121,7 +134,7 @@ subroutine norm_each_t(psi, ovl, aovl)
     ! calculate Sum_J A_J^*  * A_J
     ! result stored in aovl.
     !-----------------------------------------------------------------------
-    call vvaxzz(psi,psi,aovl,adim)
+    call vvaxzz(psi_t,psi_t,aovl,adim)
 
     deallocate(workc)
 

@@ -21,7 +21,7 @@ subroutine rdpsidef(unit)
         read(unit) (dim(m,s), m=1, nmode)
     end do
 
-    read(unit) psitype
+    read(unit) psitype  ! psitype. = 0, (MCTDH). = 1, (numerically exact). =3, (multilayer)
 
     if(psitype == 3) then
         ! multi-layer MCTDH wave function.
@@ -43,7 +43,7 @@ subroutine rdpsidef(unit)
     read(unit) (idmode(m), m = 1, nmode)
     read(unit) (symcv(m), m = 1, nmode)
 
-    call psidat
+    call psidat_pointer
 
 
 
@@ -53,7 +53,7 @@ end subroutine rdpsidef
 
 ! see iopsidef.F psidat subroutine.
 ! allocate pointer for wave function tensor.
-subroutine psidat
+subroutine psidat_pointer
     use daten
     use psidef
     use griddat
@@ -72,6 +72,7 @@ subroutine psidat
     !-----------------------------------------------------------------------
 
     allocate(vdim(nmode, nstate), ndim(nmode, nstate))
+    allocate (dmat(nmode, nstate)) ! density matrix size
     allocate( block(nstate) ) ! size of A coefficient tensor for diff states.
     allocate( zpsi(nstate) ) ! pointer for A vectors for state s.
     allocate( phidim(nmode) ) ! size of basis sets for mode m.
@@ -185,4 +186,4 @@ subroutine psidat
         end do
     end do
 
-end subroutine psidat
+end subroutine psidat_pointer

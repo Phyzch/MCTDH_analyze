@@ -4,14 +4,14 @@ module daten
     ! program version
     real filever
 
-    Character( len = 50 ) :: psi_filename
-    Character( len = 50 ) :: psi_folderpath
+    Character( len = : ), allocatable :: psi_filename
+    Character( len = : ), allocatable :: psi_folderpath
 
-    Character( len = 100 ) :: output_folderpath
+    Character( len = : ), allocatable :: output_folderpath
 
     ! for error information handling.
-    Character( len = 100 ) :: routine
-    Character( len = 100 ) :: message
+    Character( len = : ), allocatable :: routine
+    Character( len = : ), allocatable :: message
 
     integer ipsi
     !--------------------------------------
@@ -22,7 +22,7 @@ module daten
     !  tfinal:     Final time in fs
     !  tinit:      Time at start of calculation in fs
     !----------------------------------------
-    real out1, out2, tfinal, tinit
+    real*8 out1, out2, tfinal, tinit
     parameter (fs = 41.3414d0)  ! See doc/mctdh/input.html, section unit for conversion factor for fs.
 
     !-----------------------------------------------------------------------
