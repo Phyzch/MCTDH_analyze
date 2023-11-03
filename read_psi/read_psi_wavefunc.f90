@@ -6,9 +6,7 @@ subroutine read_psi()
 
     logical lend
     integer i,j, k,  psi_index
-    integer(8) psi_info_end ! file location pointer to record the end of psi_info from the beginning.
-    integer(8) psi_end
-    integer(8) psi_file_pos_back
+
     real time , dt
 
 
@@ -21,22 +19,23 @@ subroutine read_psi()
     ! read version of the file.
     read(ipsi) filever
 
-    ! read information for psi wave function.
+    ! read header information for psi wave function.
     call rdpsiinfo(ipsi)
 
-    ! allocate space. dgldim: total length of wave function psi.
+    ! allocate space for wave function psi. dgldim: total length of wave function psi.
     allocate(spsi(dgldim), psi(dgldim))
 
     ! output time for wave function in fs.
+    ! See doc/mctdh/input.html, section unit for unit of fs.
     dt = out2 / fs
 
-    ! for psi_number
+    ! for recording time step.
     psi_index = 1
     time = tinit
 
     allocate( psi_array(dgldim,psi_number_max) )  ! allocate space for psi_array
 
-    allocate(time_list(psi_number_max))
+    allocate(time_list(psi_number_max))  ! allocate space for the time.
 
 
     lend = .false.  ! when lend = true, this means we reach the end of the psi file.
@@ -67,6 +66,7 @@ subroutine read_psi()
     psi_number = psi_index - 1
     !----------------- calculate the # of time steps by reading to the end of the psi file  END --------------------------
 
+    ! close the psi file.
     close(ipsi)
 end subroutine read_psi
 

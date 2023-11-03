@@ -32,8 +32,8 @@ subroutine norm()
     norm_log_filepath = output_folderpath // norm_log_filename
     norm_filepath = output_folderpath// norm_filename
 
-    open(unit = ilog, file = norm_log_filepath, action = "WRITE" ,form = "formatted")  ! formatted means the file will be treated as a text file
-    ! with human readable content.
+    open(unit = ilog, file = norm_log_filepath, action = "WRITE" ,form = "formatted")
+    ! formatted means the file will be treated as a text file with human readable content.
 
     open(unit = norm_out_id, file = norm_filepath, action = "WRITE", form = "formatted")
 
@@ -46,8 +46,13 @@ subroutine norm()
 
     do t_index = 1, psi_number
         ! t_index is index for time
+        ! psi_t: wave function at time t
         psi_t = psi_array(:, t_index)
+
         time = time_list(t_index)
+
+        ! ovl: square of wave function norm.
+        ! aovl: square of A tensor vector norm.
         call norm_each_t( ovl, aovl)
 
         ! output result
@@ -92,6 +97,7 @@ subroutine norm_each_t(ovl, aovl)
     !-----------------------------------------------------------------------
     do s = 1, nstate
         do m = 1, nmode
+            ! defined in lib/mmlib.f90
             call mmaxzz(psi_t(zetf(m,s)) , psi_t(zetf(m,s)), ovr(dmat(m,s)) , &
                     subdim(m), dim(m,s), dim(m,s))
             ! see rdpsidef.f90 for dmat(m,s). This is the index for density matrix.
@@ -105,11 +111,14 @@ subroutine norm_each_t(ovl, aovl)
     do s=1,nstate
         zeig1=1
         zeig2=block(s)+1
+        ! defined in lib/op1lib.f90 : copy complex vector.
         call cpvxz(psi_t(zpsi(s)),workc(zeig2),block(s))
+
         do m=1,nmode
             swapzeig=zeig1
             zeig1=zeig2
             zeig2=swapzeig
+            ! see /lib/mtlib.f90.
             call qtxxzz(ovr(dmat(m,s)),workc(zeig1),workc(zeig2),&
                     vdim(m,s),dim(m,s),ndim(m,s))
             ! both workc(zeig1), workc(zeig2) have space block(s)
@@ -127,7 +136,9 @@ subroutine norm_each_t(ovl, aovl)
         ! workc(zeig2) = sum_L <phi_J|phi_L> A_L
         ! This is just scalar product of two vectors. result is stored in zdum.
         !-----------------------------------------------------------------------
+        ! see lib/xvlib.f90
         call vvaxzz(psi_t(zpsi(s)),workc(zeig2),zdum,block(s))
+
         ovl=ovl+zdum
     enddo
 
@@ -135,6 +146,7 @@ subroutine norm_each_t(ovl, aovl)
     ! calculate Sum_J A_J^*  * A_J
     ! result stored in aovl.
     !-----------------------------------------------------------------------
+    ! see lib/xvlib.f90
     call vvaxzz(psi_t,psi_t,aovl,adim)
 
     deallocate(workc)

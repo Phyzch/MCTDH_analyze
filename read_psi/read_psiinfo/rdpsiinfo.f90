@@ -13,13 +13,15 @@ subroutine rdpsiinfo(unit)
     integer unit
 
     call rddvrdef(unit)  ! read dvr info.
-    ! note dvrdat subroutine in rddvrdef calculate the related pointer.
+    ! note dvrdat_pointer subroutine in rddvrdef calculate the related pointer.
     ! See dvrdat subroutine in iodvrdef.F in MCTDH source code for more information.
+
     call rdgrddef(unit)  ! read grid definition.
-    ! note grddat subroutine in rdgrddef calculate the related pointer.
+    ! note grddat_pointer subroutine in rdgrddef calculate the related pointer.
     ! See grddat subroutine in iogrddef.F in MCTDH source code for more information.
+
     call rdpsidef(unit)  ! read wave function psi definition.
-    ! note psidat subroutine in rdpsidef calculate the related pointer.
+    ! note psidat_pointer subroutine in rdpsidef calculate the related pointer.
     ! See psidat subroutine in iopsidef.F in MCTDH source code for more information.
 
 
@@ -29,7 +31,7 @@ subroutine rdpsiinfo(unit)
                                                  ! See rdpsi subroutine for details
 
 
-    if (nopt .lt. 0 .or.  nopt .gt. npsiopt) goto 981
+    if (nopt .lt. 0 .or.  nopt .gt. npsiopt) goto 981  ! error.
 
     do n = 1, nopt
         lpsiopt(n) = (ilpsiopt(n) /= 0) !convert ilpsiopt to lpsiopt (logical variable)

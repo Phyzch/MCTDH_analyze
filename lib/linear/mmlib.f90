@@ -8,9 +8,7 @@
 ! NB this routine can be used for the overlap of two sets of vectors in
 !   different spf bases
 !----------------------------------------------------------------------
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-! If you do some changes in mmaxzz, please do them in dwtmmaxzz too!
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
 
 subroutine mmaxzz (a,b,c,dim1,dim2,dim3)
 

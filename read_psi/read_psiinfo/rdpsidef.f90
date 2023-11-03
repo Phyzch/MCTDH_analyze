@@ -18,7 +18,7 @@ subroutine rdpsidef(unit)
     allocate( dim(nmode, nstate) )
 
     do s = 1, nstate
-        read(unit) (dim(m,s), m=1, nmode)
+        read(unit) (dim(m,s), m=1, nmode)  ! # of single particle functions defined for each mode.
     end do
 
     read(unit) psitype  ! psitype. = 0, (MCTDH). = 1, (numerically exact). =3, (multilayer)
@@ -27,7 +27,7 @@ subroutine rdpsidef(unit)
         ! multi-layer MCTDH wave function.
         ! we do not support such mode now.
         routine='rdpsidef'
-        message='ERROR reading psi def file.'
+        message='ERROR reading psi def file. No support for Multi-layer MCTDH.'
         write(*,*) "routine : " // routine
         write(*,*) "message : " // message
 
@@ -125,6 +125,8 @@ subroutine psidat_pointer
     !-------------------------------------------
     ! compute phidim(m): the length of spf vectors for mode m.
     ! compute the length of single particle function arrays
+    ! subndim(m): size of single-particle basis
+    ! dim(m,s) : # of single particle functions in a given mode used to define the wave function.
     !-----------------------------------------
     totphidim = 0
     call zerovxi(phidim, nmode)
